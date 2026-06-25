@@ -1,0 +1,13 @@
+# Local source materials used for content extraction
+*.pdf
+*.pptx
+
+# Temporary extraction output
+_extracted_assets/
+*.log
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
