@@ -767,6 +767,24 @@ h3 {
   align-items: center;
 }
 
+.contact-actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.55rem;
+}
+
+.contact-email-feedback {
+  min-height: 1.3rem;
+  color: #d7e6e1;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.contact-email-feedback.visible {
+  opacity: 1;
+}
+
 .contact-inner h2 {
   max-width: 760px;
 }
@@ -857,6 +875,7 @@ h3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .contact-actions,
   .contact-inner .button {
     width: fit-content;
   }
@@ -920,8 +939,17 @@ h3 {
   }
 
   .hero-actions,
+  .contact-actions,
   .contact-inner .button {
     width: 100%;
+  }
+
+  .contact-actions {
+    justify-items: stretch;
+  }
+
+  .contact-email-feedback {
+    text-align: center;
   }
 
   .button {

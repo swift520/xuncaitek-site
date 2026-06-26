@@ -95,6 +95,8 @@ const translations = {
     contactBody:
       "长辰迅采期待与机器人企业、具身大模型团队、科研机构、场景方和地方产业伙伴，共建工业、家庭、商业三类标杆数据集。",
     contactButton: "发起合作咨询",
+    contactEmailCopied: "邮箱已复制：ligchen_xuncaitech@163.com",
+    contactEmailFallback: "联系邮箱：ligchen_xuncaitech@163.com",
   },
   en: {
     pageTitle: "XUNCAITEK | Embodied AI Data Collection",
@@ -198,6 +200,8 @@ const translations = {
     contactBody:
       "XUNCAITEK looks forward to working with robotics companies, embodied model teams, research institutions, scene partners and local industry ecosystems to build benchmark datasets for industrial, home and commercial robots.",
     contactButton: "Start Collaboration",
+    contactEmailCopied: "Email copied: ligchen_xuncaitech@163.com",
+    contactEmailFallback: "Contact email: ligchen_xuncaitech@163.com",
   },
 };
 
@@ -205,10 +209,14 @@ const buttons = document.querySelectorAll(".lang-button");
 const translatable = document.querySelectorAll("[data-i18n]");
 const metaDescription = document.querySelector('meta[name="description"]');
 const languageStorageKey = "xuncaitek-language";
+const contactEmailButton = document.querySelector("[data-contact-email]");
+const contactEmailFeedback = document.querySelector(".contact-email-feedback");
+let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
 
 function setLanguage(lang) {
-  const dictionary = translations[lang] || translations.en;
-  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  currentLanguage = translations[lang] ? lang : "en";
+  const dictionary = translations[currentLanguage];
+  document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : "en";
   document.title = dictionary.pageTitle;
   if (metaDescription) {
     metaDescription.setAttribute("content", dictionary.metaDescription);
@@ -222,16 +230,58 @@ function setLanguage(lang) {
   });
 
   buttons.forEach((button) => {
-    const isActive = button.dataset.lang === lang;
+    const isActive = button.dataset.lang === currentLanguage;
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
   });
 
-  localStorage.setItem(languageStorageKey, lang);
+  localStorage.setItem(languageStorageKey, currentLanguage);
 }
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => setLanguage(button.dataset.lang));
 });
 
-setLanguage(localStorage.getItem(languageStorageKey) || "en");
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+
+  return new Promise((resolve, reject) => {
+    const helper = document.createElement("textarea");
+    helper.value = text;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.opacity = "0";
+    document.body.appendChild(helper);
+    helper.select();
+    const copied = document.execCommand("copy");
+    document.body.removeChild(helper);
+    copied ? resolve() : reject(new Error("Copy failed"));
+  });
+}
+
+function showContactFeedback(copied) {
+  if (!contactEmailFeedback) {
+    return;
+  }
+
+  const dictionary = translations[currentLanguage] || translations.en;
+  contactEmailFeedback.textContent = copied ? dictionary.contactEmailCopied : dictionary.contactEmailFallback;
+  contactEmailFeedback.classList.add("visible");
+}
+
+if (contactEmailButton) {
+  contactEmailButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    try {
+      await copyText(contactEmailButton.dataset.contactEmail);
+      showContactFeedback(true);
+    } catch {
+      showContactFeedback(false);
+    }
+    window.location.href = contactEmailButton.href;
+  });
+}
+
+setLanguage(currentLanguage);
