@@ -9,6 +9,9 @@ _extracted_assets/
 # Local high-resolution EGO source images
 EGO/
 
+# Local high-resolution third-person wearing scene source images
+佩戴场景/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

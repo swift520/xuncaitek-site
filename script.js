@@ -78,6 +78,19 @@ const translations = {
     egoFeatureKicker: "代表性样本",
     egoFeatureTitle: "从操作者视角捕捉双手、工具与工位。",
     egoFeatureBody: "图库保留真实作业现场中的遮挡、光照、手物接触和流程差异。",
+    thirdPersonEyebrow: "第三人称佩戴视角",
+    thirdPersonTitle: "外部视角让每次穿戴采集都可核验。",
+    thirdPersonBody:
+      "横屏与竖屏第三人称画面，与第一视角数据形成互补，用于展示设备佩戴状态、人员姿态和现场环境关系。",
+    thirdPersonStatFrames: "画面",
+    thirdPersonStatLandscape: "横屏",
+    thirdPersonStatPortrait: "竖屏",
+    thirdPersonLandscapeKicker: "横屏采集",
+    thirdPersonLandscapeTitle: "用宽画幅展示工位布局和操作者动作范围。",
+    thirdPersonLandscapeBody: "这些画面可用于检查机位覆盖、任务空间、安全距离和第一视角之外的身体运动。",
+    thirdPersonPortraitKicker: "竖屏采集",
+    thirdPersonPortraitTitle: "竖幅画面更清楚呈现穿戴设备在人体上的状态。",
+    thirdPersonPortraitBody: "竖屏样本聚焦佩戴姿态、头显角度以及上半身与真实任务场景的关系。",
     task1: "打孔 / Drilling",
     task2: "包装 / Packaging",
     task3: "组装 / Assembly",
@@ -195,6 +208,21 @@ const translations = {
     egoFeatureTitle: "Hands, tools and workstations captured from the operator's view.",
     egoFeatureBody:
       "The gallery preserves occlusion, lighting, hand-object contact and workflow variation from real work sites.",
+    thirdPersonEyebrow: "Third-person Wearable Views",
+    thirdPersonTitle: "External camera views make each wearable setup auditable.",
+    thirdPersonBody:
+      "Landscape and portrait third-person frames show device wearing state, operator posture and surrounding scene context alongside the first-person data stream.",
+    thirdPersonStatFrames: "frames",
+    thirdPersonStatLandscape: "landscape",
+    thirdPersonStatPortrait: "portrait",
+    thirdPersonLandscapeKicker: "Landscape capture",
+    thirdPersonLandscapeTitle: "Wide external views for worksite layout and operator motion.",
+    thirdPersonLandscapeBody:
+      "Use these frames to check camera coverage, task space, safety distance and body movement outside the Ego view.",
+    thirdPersonPortraitKicker: "Portrait capture",
+    thirdPersonPortraitTitle: "Vertical views clarify how wearable devices sit on the operator.",
+    thirdPersonPortraitBody:
+      "Portrait frames focus on wearing posture, headset angle and upper-body relation to the real task scene.",
     task1: "Drilling",
     task2: "Packaging",
     task3: "Assembly",
@@ -237,6 +265,8 @@ const contactEmailFeedback = document.querySelector(".contact-email-feedback");
 const egoFilterContainer = document.querySelector("[data-ego-filters]");
 const egoGallery = document.querySelector("[data-ego-gallery]");
 const egoMarqueeTracks = document.querySelectorAll("[data-ego-marquee]");
+const thirdPersonLandscape = document.querySelector("[data-third-person-landscape]");
+const thirdPersonPortrait = document.querySelector("[data-third-person-portrait]");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
 let activeEgoFilter = "all";
 
@@ -314,6 +344,28 @@ const egoSamples = [
   { src: "assets/ego/vegetables-05.webp", category: "vegetables", index: "05" },
 ];
 
+const thirdPersonModeLabels = {
+  landscape: { en: "Landscape", zh: "横屏" },
+  portrait: { en: "Portrait", zh: "竖屏" },
+};
+
+const thirdPersonSamples = [
+  { src: "assets/third-person/landscape-01.webp", mode: "landscape", index: "01", code: "TP-L01" },
+  { src: "assets/third-person/landscape-02.webp", mode: "landscape", index: "02", code: "TP-L02" },
+  { src: "assets/third-person/landscape-03.webp", mode: "landscape", index: "03", code: "TP-L03" },
+  { src: "assets/third-person/landscape-04.webp", mode: "landscape", index: "04", code: "TP-L04" },
+  { src: "assets/third-person/landscape-05.webp", mode: "landscape", index: "05", code: "TP-L05" },
+  { src: "assets/third-person/landscape-06.webp", mode: "landscape", index: "06", code: "TP-L06" },
+  { src: "assets/third-person/portrait-01.webp", mode: "portrait", index: "01", code: "TP-P01" },
+  { src: "assets/third-person/portrait-02.webp", mode: "portrait", index: "02", code: "TP-P02" },
+  { src: "assets/third-person/portrait-03.webp", mode: "portrait", index: "03", code: "TP-P03" },
+  { src: "assets/third-person/portrait-04.webp", mode: "portrait", index: "04", code: "TP-P04" },
+  { src: "assets/third-person/portrait-05.webp", mode: "portrait", index: "05", code: "TP-P05" },
+  { src: "assets/third-person/portrait-06.webp", mode: "portrait", index: "06", code: "TP-P06" },
+  { src: "assets/third-person/portrait-07.webp", mode: "portrait", index: "07", code: "TP-P07" },
+  { src: "assets/third-person/portrait-08.webp", mode: "portrait", index: "08", code: "TP-P08" },
+];
+
 function setLanguage(lang) {
   currentLanguage = translations[lang] ? lang : "en";
   const dictionary = translations[currentLanguage];
@@ -338,6 +390,7 @@ function setLanguage(lang) {
 
   localStorage.setItem(languageStorageKey, currentLanguage);
   renderEgoModule();
+  renderThirdPersonModule();
 }
 
 buttons.forEach((button) => {
@@ -437,6 +490,54 @@ function renderEgoModule() {
   renderEgoFilters();
   renderEgoGallery();
   renderEgoMarquee();
+}
+
+function getThirdPersonModeLabel(mode) {
+  const labels = thirdPersonModeLabels[mode] || thirdPersonModeLabels.landscape;
+  return labels[currentLanguage] || labels.en;
+}
+
+function createThirdPersonCard(sample) {
+  const modeLabel = getThirdPersonModeLabel(sample.mode);
+  const figure = document.createElement("figure");
+  figure.className = `third-person-card is-${sample.mode}`;
+
+  const image = document.createElement("img");
+  image.src = sample.src;
+  image.alt =
+    currentLanguage === "zh"
+      ? `第三人称${modeLabel}佩戴场景样本 ${sample.index}`
+      : `Third-person ${modeLabel.toLowerCase()} wearable scene sample ${sample.index}`;
+  image.loading = "lazy";
+  image.decoding = "async";
+
+  const caption = document.createElement("figcaption");
+  const title = document.createElement("span");
+  title.textContent = modeLabel;
+  const code = document.createElement("small");
+  code.textContent = sample.code;
+
+  caption.append(title, code);
+  figure.append(image, caption);
+  return figure;
+}
+
+function renderThirdPersonGroup(container, mode) {
+  if (!container) {
+    return;
+  }
+
+  container.textContent = "";
+  thirdPersonSamples
+    .filter((sample) => sample.mode === mode)
+    .forEach((sample) => {
+      container.appendChild(createThirdPersonCard(sample));
+    });
+}
+
+function renderThirdPersonModule() {
+  renderThirdPersonGroup(thirdPersonLandscape, "landscape");
+  renderThirdPersonGroup(thirdPersonPortrait, "portrait");
 }
 
 function copyText(text) {

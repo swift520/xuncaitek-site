@@ -798,6 +798,181 @@ h3 {
   background: var(--bg-lift);
 }
 
+.third-person-section {
+  position: relative;
+  padding-top: 5rem;
+}
+
+.third-person-section::before {
+  position: absolute;
+  inset: 2rem calc((100vw - min(calc(100vw - 2rem), var(--max))) / -2) 2rem;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(140deg, rgba(69, 231, 255, 0.055), rgba(99, 240, 181, 0.028) 45%, rgba(255, 180, 94, 0.045)),
+    rgba(255, 255, 255, 0.012);
+  border-block: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.third-person-heading-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2.2rem;
+}
+
+.third-person-heading-row .section-heading {
+  margin-bottom: 0;
+}
+
+.third-person-stat-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.third-person-stat-stack div,
+.third-person-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.third-person-stat-stack div {
+  padding: 0.85rem;
+}
+
+.third-person-stat-stack strong {
+  display: block;
+  color: var(--white);
+  font-size: 1.45rem;
+  line-height: 1.05;
+}
+
+.third-person-stat-stack span {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.third-person-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(300px, 0.38fr);
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.third-person-lane {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.third-person-lane-copy {
+  max-width: 660px;
+}
+
+.third-person-lane-copy span {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+.third-person-lane-copy h3 {
+  margin-bottom: 0.48rem;
+}
+
+.third-person-lane-copy p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.third-person-landscape-grid,
+.third-person-portrait-rail {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.third-person-landscape-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.third-person-landscape-grid .third-person-card:first-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 8.6;
+}
+
+.third-person-portrait-rail {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-bottom: 1.2rem;
+}
+
+.third-person-portrait-rail .third-person-card:nth-child(even) {
+  transform: translateY(1.2rem);
+}
+
+.third-person-card {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg-lift);
+}
+
+.third-person-card.is-landscape {
+  aspect-ratio: 16 / 10;
+}
+
+.third-person-card.is-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.third-person-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.04) contrast(1.02);
+  transition: transform 220ms ease;
+}
+
+.third-person-card:hover img,
+.third-person-card:focus-within img {
+  transform: scale(1.035);
+}
+
+.third-person-card figcaption {
+  position: absolute;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+.third-person-card figcaption span,
+.third-person-card figcaption small {
+  padding: 0.26rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(2, 6, 5, 0.76);
+  backdrop-filter: blur(10px);
+}
+
+.third-person-card figcaption small {
+  color: var(--green);
+  font-size: 0.68rem;
+}
+
 .task-gallery {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1065,12 +1240,14 @@ h3 {
   }
 
   .hero-grid,
-  .split-section,
-  .ego-heading-row,
-  .ego-showcase,
-  .delivery-layout,
-  .proof-section,
-  .contact-inner {
+    .split-section,
+    .ego-heading-row,
+    .ego-showcase,
+    .third-person-heading-row,
+    .third-person-showcase,
+    .delivery-layout,
+    .proof-section,
+    .contact-inner {
     grid-template-columns: 1fr;
   }
 
@@ -1103,6 +1280,14 @@ h3 {
 
   .ego-gallery-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .third-person-portrait-rail {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .third-person-portrait-rail .third-person-card:nth-child(even) {
+    transform: none;
   }
 
   .contact-actions,
@@ -1196,6 +1381,15 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .third-person-stat-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .third-person-portrait-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-bottom: 0;
+  }
+
   .ego-marquee {
     padding: 0.75rem;
   }
@@ -1275,9 +1469,14 @@ h3 {
   }
 
   .ego-gallery-grid,
+  .third-person-landscape-grid,
   .pipeline,
   .task-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .third-person-landscape-grid .third-person-card:first-child {
+    grid-column: auto;
   }
 
   .ego-controls {
@@ -1290,6 +1489,22 @@ h3 {
     font-size: 0.88rem;
   }
 
+  .third-person-showcase {
+    gap: 1.8rem;
+  }
+
+  .third-person-card figcaption {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .third-person-card figcaption span,
+  .third-person-card figcaption small {
+    padding: 0.22rem 0.38rem;
+  }
+
   .intro-line {
     justify-content: flex-start;
   }
@@ -1298,5 +1513,9 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   .ego-marquee-track {
     animation-play-state: paused;
+  }
+
+  .third-person-card img {
+    transition: none;
   }
 }
