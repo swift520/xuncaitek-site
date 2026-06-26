@@ -1,6 +1,6 @@
-# Chang Chen Xun Cai Robotics Data Website
+# XUNCAITEK Robotics Data Website
 
-Static bilingual landing page for 福州长辰迅采软件技术有限公司.
+Static bilingual landing page for XUNCAITEK / 福州长辰迅采软件技术有限公司.
 
 ## Overview
 

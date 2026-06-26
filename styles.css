@@ -80,7 +80,7 @@ button {
   right: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 1.5rem;
   align-items: center;
   width: min(calc(100% - 2rem), 1240px);
@@ -99,16 +99,15 @@ button {
   display: inline-flex;
   align-items: center;
   min-width: 0;
-  gap: 0.75rem;
+  gap: 0.7rem;
 }
 
 .brand img,
 .footer-brand img {
-  width: 44px;
-  height: 44px;
-  object-fit: cover;
-  border-radius: 6px;
-  background: var(--white);
+  width: 58px;
+  height: 40px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .brand span {
@@ -118,14 +117,9 @@ button {
 }
 
 .brand strong {
-  font-size: 1rem;
-}
-
-.brand small {
-  margin-top: 0.22rem;
   overflow: hidden;
-  color: var(--muted);
-  font-size: 0.72rem;
+  color: var(--white);
+  font-size: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -789,8 +783,8 @@ h3 {
 }
 
 .footer-brand img {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 32px;
 }
 
 .site-footer p {
@@ -803,6 +797,7 @@ h3 {
     height: auto;
     min-height: 72px;
     padding: 0.8rem;
+    gap: 1rem;
   }
 
   .main-nav {
@@ -857,10 +852,31 @@ h3 {
 @media (max-width: 680px) {
   .site-header {
     width: calc(100% - 1rem);
+    min-height: 66px;
+    padding: 0.65rem 0.7rem;
   }
 
-  .brand small {
-    display: none;
+  .brand {
+    gap: 0.55rem;
+  }
+
+  .brand img {
+    width: 50px;
+    height: 34px;
+  }
+
+  .brand strong {
+    max-width: 10rem;
+    font-size: 0.95rem;
+  }
+
+  .language-switcher {
+    width: 80px;
+  }
+
+  .lang-button {
+    width: 32px;
+    height: 30px;
   }
 
   .section {
@@ -898,7 +914,7 @@ h3 {
   }
 
   .hero-panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 0.5rem;
   }
 
@@ -913,7 +929,7 @@ h3 {
   .metric span {
     display: block;
     margin-top: 0.2rem;
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     line-height: 1.35;
   }
 
@@ -937,5 +953,29 @@ h3 {
 
   .proof-image img {
     height: 300px;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-header {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .brand strong {
+    max-width: 7.8rem;
+    font-size: 0.88rem;
+  }
+
+  h1 {
+    font-size: 2.45rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .intro-line {
+    justify-content: flex-start;
   }
 }

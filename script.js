@@ -1,8 +1,8 @@
 const translations = {
   zh: {
     pageTitle: "长辰迅采 | 具身智能数据采集与标注",
+    metaDescription: "福州长辰迅采软件技术有限公司专注具身智能无本体数据采集、标注、质检与数据集交付。",
     brandShort: "长辰迅采",
-    brandEn: "CHANG CHEN XUN CAI",
     navSolution: "方案",
     navScenes: "场景",
     navDelivery: "交付",
@@ -100,15 +100,15 @@ const translations = {
     footerNote: "Body-free embodied AI data collection, annotation and dataset delivery.",
   },
   en: {
-    pageTitle: "Chang Chen Xun Cai | Embodied AI Data Collection",
-    brandShort: "Chang Chen Xun Cai",
-    brandEn: "EMBODIED AI DATA",
+    pageTitle: "XUNCAITEK | Embodied AI Data Collection",
+    metaDescription: "XUNCAITEK provides body-free embodied AI data collection, annotation, QA and dataset delivery.",
+    brandShort: "XUNCAITEK",
     navSolution: "Solution",
     navScenes: "Scenes",
     navDelivery: "Delivery",
     navContact: "Contact",
     heroEyebrow: "Body-free embodied AI data partner",
-    heroTitle: "Chang Chen Xun Cai",
+    heroTitle: "XUNCAITEK",
     heroSubtitle:
       "Real-world factory data collection for embodied intelligence. We combine first-person Ego video, wearable motion capture, multimodal synchronization and detailed annotation to deliver datasets ready for VLA training.",
     ctaTalk: "Discuss a Project",
@@ -140,7 +140,7 @@ const translations = {
     solutionEyebrow: "Company Solution",
     solutionTitle: "A data collection and annotation engineering platform for VLA training.",
     solutionBody:
-      "Chang Chen Xun Cai serves robotics companies, embodied foundation model teams and research institutions with real scenes, wearable capture, multi-device time sync, detailed annotation, QA review and dataset packaging.",
+      "XUNCAITEK serves robotics companies, embodied foundation model teams and research institutions with real scenes, wearable capture, multi-device time sync, detailed annotation, QA review and dataset packaging.",
     cap1Title: "Scene sourcing",
     cap1Text: "Coverage across manufacturing hubs including Fujian, Guangdong and Zhejiang.",
     cap2Title: "Multimodal capture",
@@ -200,20 +200,25 @@ const translations = {
     contactEyebrow: "Co-build",
     contactTitle: "Turn real scenes into data infrastructure robots can learn from.",
     contactBody:
-      "Chang Chen Xun Cai looks forward to working with robotics companies, embodied model teams, research institutions, scene partners and local industry ecosystems to build benchmark datasets for industrial, home and commercial robots.",
+      "XUNCAITEK looks forward to working with robotics companies, embodied model teams, research institutions, scene partners and local industry ecosystems to build benchmark datasets for industrial, home and commercial robots.",
     contactButton: "Start Collaboration",
-    footerCompany: "Fuzhou Chang Chen Xun Cai Software Technology Co., Ltd.",
+    footerCompany: "XUNCAITEK",
     footerNote: "Body-free embodied AI data collection, annotation and dataset delivery.",
   },
 };
 
 const buttons = document.querySelectorAll(".lang-button");
 const translatable = document.querySelectorAll("[data-i18n]");
+const metaDescription = document.querySelector('meta[name="description"]');
+const languageStorageKey = "xuncaitek-language";
 
 function setLanguage(lang) {
-  const dictionary = translations[lang] || translations.zh;
+  const dictionary = translations[lang] || translations.en;
   document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
   document.title = dictionary.pageTitle;
+  if (metaDescription) {
+    metaDescription.setAttribute("content", dictionary.metaDescription);
+  }
 
   translatable.forEach((node) => {
     const key = node.dataset.i18n;
@@ -228,11 +233,11 @@ function setLanguage(lang) {
     button.setAttribute("aria-pressed", String(isActive));
   });
 
-  localStorage.setItem("ccxc-language", lang);
+  localStorage.setItem(languageStorageKey, lang);
 }
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => setLanguage(button.dataset.lang));
 });
 
-setLanguage(localStorage.getItem("ccxc-language") || "zh");
+setLanguage(localStorage.getItem(languageStorageKey) || "en");
