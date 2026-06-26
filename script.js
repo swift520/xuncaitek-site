@@ -72,9 +72,6 @@ const translations = {
     egoTitle: "真实采集场景的第一视角样本。",
     egoBody:
       "来自生产、服务、农业和家庭任务的第一视角采集样本，展示具身智能训练数据所需的真实物理细节。",
-    egoStatImages: "样本画面",
-    egoStatScenes: "任务类别",
-    egoStatView: "第一视角采集",
     egoFeatureKicker: "代表性样本",
     egoFeatureTitle: "从操作者视角捕捉双手、工具与工位。",
     egoFeatureBody: "图库保留真实作业现场中的遮挡、光照、手物接触和流程差异。",
@@ -201,9 +198,6 @@ const translations = {
     egoTitle: "A field view of real collection scenes.",
     egoBody:
       "First-person capture samples from production, service, agricultural and household tasks show the physical detail needed for embodied AI training data.",
-    egoStatImages: "sample frames",
-    egoStatScenes: "task families",
-    egoStatView: "first-person view",
     egoFeatureKicker: "Representative sample",
     egoFeatureTitle: "Hands, tools and workstations captured from the operator's view.",
     egoFeatureBody:
@@ -262,13 +256,10 @@ const metaDescription = document.querySelector('meta[name="description"]');
 const languageStorageKey = "xuncaitek-language";
 const contactEmailButton = document.querySelector("[data-contact-email]");
 const contactEmailFeedback = document.querySelector(".contact-email-feedback");
-const egoFilterContainer = document.querySelector("[data-ego-filters]");
-const egoGallery = document.querySelector("[data-ego-gallery]");
 const egoMarqueeTracks = document.querySelectorAll("[data-ego-marquee]");
 const thirdPersonLandscape = document.querySelector("[data-third-person-landscape]");
 const thirdPersonPortrait = document.querySelector("[data-third-person-portrait]");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
-let activeEgoFilter = "all";
 
 const egoCategories = [
   { id: "all", en: "All samples", zh: "全部样本" },
@@ -406,10 +397,10 @@ function getEgoLabel(id) {
   return category[currentLanguage] || category.en;
 }
 
-function createEgoImageCard(sample, variant = "grid") {
+function createEgoImageCard(sample) {
   const categoryLabel = getEgoLabel(sample.category);
   const figure = document.createElement("figure");
-  figure.className = variant === "marquee" ? "ego-marquee-card" : "ego-card";
+  figure.className = "ego-marquee-card";
   figure.dataset.category = sample.category;
 
   const image = document.createElement("img");
@@ -421,52 +412,10 @@ function createEgoImageCard(sample, variant = "grid") {
   const caption = document.createElement("figcaption");
   const title = document.createElement("span");
   title.textContent = categoryLabel;
-  const code = document.createElement("small");
-  code.textContent = `EGO-${sample.index}`;
 
-  caption.append(title, code);
+  caption.append(title);
   figure.append(image, caption);
   return figure;
-}
-
-function renderEgoFilters() {
-  if (!egoFilterContainer) {
-    return;
-  }
-
-  egoFilterContainer.textContent = "";
-
-  egoCategories.forEach((category) => {
-    const button = document.createElement("button");
-    const isActive = category.id === activeEgoFilter;
-    button.type = "button";
-    button.className = "ego-filter";
-    button.dataset.egoFilter = category.id;
-    button.textContent = category[currentLanguage] || category.en;
-    button.setAttribute("aria-pressed", String(isActive));
-    button.classList.toggle("active", isActive);
-    button.addEventListener("click", () => {
-      activeEgoFilter = category.id;
-      renderEgoModule();
-    });
-    egoFilterContainer.appendChild(button);
-  });
-}
-
-function renderEgoGallery() {
-  if (!egoGallery) {
-    return;
-  }
-
-  const samples =
-    activeEgoFilter === "all"
-      ? egoSamples
-      : egoSamples.filter((sample) => sample.category === activeEgoFilter);
-
-  egoGallery.textContent = "";
-  samples.forEach((sample) => {
-    egoGallery.appendChild(createEgoImageCard(sample));
-  });
 }
 
 function renderEgoMarquee() {
@@ -481,14 +430,12 @@ function renderEgoMarquee() {
   egoMarqueeTracks.forEach((track, index) => {
     track.textContent = "";
     [...tracks[index], ...tracks[index]].forEach((sample) => {
-      track.appendChild(createEgoImageCard(sample, "marquee"));
+      track.appendChild(createEgoImageCard(sample));
     });
   });
 }
 
 function renderEgoModule() {
-  renderEgoFilters();
-  renderEgoGallery();
   renderEgoMarquee();
 }
 

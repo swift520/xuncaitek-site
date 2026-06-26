@@ -589,10 +589,6 @@ h3 {
 }
 
 .ego-heading-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
-  gap: 2rem;
-  align-items: end;
   margin-bottom: 2.2rem;
 }
 
@@ -600,39 +596,12 @@ h3 {
   margin-bottom: 0;
 }
 
-.ego-stat-stack {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.7rem;
-}
-
-.ego-stat-stack div,
 .ego-feature-card,
-.ego-marquee,
-.ego-card {
+.ego-marquee {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: var(--shadow);
-}
-
-.ego-stat-stack div {
-  padding: 0.85rem;
-}
-
-.ego-stat-stack strong {
-  display: block;
-  color: var(--white);
-  font-size: 1.45rem;
-  line-height: 1.05;
-}
-
-.ego-stat-stack span {
-  display: block;
-  margin-top: 0.3rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.35;
 }
 
 .ego-showcase {
@@ -715,22 +684,18 @@ h3 {
   background: var(--bg-lift);
 }
 
-.ego-marquee-card img,
-.ego-card img {
+.ego-marquee-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: saturate(1.04) contrast(1.02);
 }
 
-.ego-marquee-card figcaption,
-.ego-card figcaption {
+.ego-marquee-card figcaption {
   position: absolute;
   left: 0.65rem;
-  right: 0.65rem;
   bottom: 0.65rem;
   display: flex;
-  justify-content: space-between;
   gap: 0.6rem;
   align-items: center;
   color: var(--text);
@@ -738,64 +703,12 @@ h3 {
   font-weight: 760;
 }
 
-.ego-marquee-card figcaption span,
-.ego-card figcaption span,
-.ego-marquee-card figcaption small,
-.ego-card figcaption small {
+.ego-marquee-card figcaption span {
   padding: 0.26rem 0.45rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   background: rgba(2, 6, 5, 0.76);
   backdrop-filter: blur(10px);
-}
-
-.ego-marquee-card figcaption small,
-.ego-card figcaption small {
-  color: var(--green);
-  font-size: 0.68rem;
-}
-
-.ego-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin: 1.2rem 0 1rem;
-}
-
-.ego-filter {
-  min-height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.42rem 0.82rem;
-  color: #dcebe6;
-  background: rgba(255, 255, 255, 0.045);
-  cursor: pointer;
-  transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease;
-}
-
-.ego-filter.active,
-.ego-filter:hover,
-.ego-filter:focus-visible {
-  border-color: rgba(99, 240, 181, 0.62);
-  color: #03100c;
-  background: linear-gradient(135deg, var(--green), var(--cyan));
-}
-
-.ego-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.85rem;
-}
-
-.ego-card {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  margin: 0;
-  overflow: hidden;
-  background: var(--bg-lift);
 }
 
 .third-person-section {
@@ -1241,7 +1154,6 @@ h3 {
 
   .hero-grid,
     .split-section,
-    .ego-heading-row,
     .ego-showcase,
     .third-person-heading-row,
     .third-person-showcase,
@@ -1276,10 +1188,6 @@ h3 {
 
   .task-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ego-gallery-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .third-person-portrait-rail {
@@ -1372,13 +1280,8 @@ h3 {
   }
 
   .pipeline,
-  .ego-gallery-grid,
   .task-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ego-stat-stack {
-    grid-template-columns: 1fr;
   }
 
   .third-person-stat-stack {
@@ -1468,7 +1371,6 @@ h3 {
     font-size: 1rem;
   }
 
-  .ego-gallery-grid,
   .third-person-landscape-grid,
   .pipeline,
   .task-gallery {
@@ -1477,16 +1379,6 @@ h3 {
 
   .third-person-landscape-grid .third-person-card:first-child {
     grid-column: auto;
-  }
-
-  .ego-controls {
-    gap: 0.45rem;
-  }
-
-  .ego-filter {
-    min-height: 36px;
-    padding-inline: 0.68rem;
-    font-size: 0.88rem;
   }
 
   .third-person-showcase {
