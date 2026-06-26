@@ -6,6 +6,9 @@
 _extracted_assets/
 *.log
 
+# Local high-resolution EGO source images
+EGO/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

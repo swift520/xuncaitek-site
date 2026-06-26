@@ -4,6 +4,7 @@ const translations = {
     metaDescription: "福州长辰迅采软件技术有限公司专注具身智能无本体数据采集、标注、质检与数据集交付。",
     navSolution: "方案",
     navScenes: "场景",
+    navSamples: "样本",
     navDelivery: "交付",
     navContact: "联系",
     heroEyebrow: "具身智能无本体数据服务商",
@@ -67,6 +68,16 @@ const translations = {
     scene3Text: "洗衣厂、商超、餐饮、仓储、酒店、医养等服务机器人过渡场景。",
     galleryEyebrow: "项目样本",
     galleryTitle: "已开展 EGO 数据采集任务展示。",
+    egoEyebrow: "EGO 样本库",
+    egoTitle: "真实采集场景的第一视角样本。",
+    egoBody:
+      "来自生产、服务、农业和家庭任务的第一视角采集样本，展示具身智能训练数据所需的真实物理细节。",
+    egoStatImages: "样本画面",
+    egoStatScenes: "任务类别",
+    egoStatView: "第一视角采集",
+    egoFeatureKicker: "代表性样本",
+    egoFeatureTitle: "从操作者视角捕捉双手、工具与工位。",
+    egoFeatureBody: "图库保留真实作业现场中的遮挡、光照、手物接触和流程差异。",
     task1: "打孔 / Drilling",
     task2: "包装 / Packaging",
     task3: "组装 / Assembly",
@@ -103,6 +114,7 @@ const translations = {
     metaDescription: "XUNCAITEK provides body-free embodied AI data collection, annotation, QA and dataset delivery.",
     navSolution: "Solution",
     navScenes: "Scenes",
+    navSamples: "Samples",
     navDelivery: "Delivery",
     navContact: "Contact",
     heroEyebrow: "Body-free embodied AI data partner",
@@ -172,6 +184,17 @@ const translations = {
       "Laundry plants, supermarkets, restaurants, warehousing, hotels and healthcare service environments for service robots.",
     galleryEyebrow: "Project Samples",
     galleryTitle: "EGO data collection tasks already in motion.",
+    egoEyebrow: "EGO Sample Library",
+    egoTitle: "A field view of real collection scenes.",
+    egoBody:
+      "First-person capture samples from production, service, agricultural and household tasks show the physical detail needed for embodied AI training data.",
+    egoStatImages: "sample frames",
+    egoStatScenes: "task families",
+    egoStatView: "first-person view",
+    egoFeatureKicker: "Representative sample",
+    egoFeatureTitle: "Hands, tools and workstations captured from the operator's view.",
+    egoFeatureBody:
+      "The gallery preserves occlusion, lighting, hand-object contact and workflow variation from real work sites.",
     task1: "Drilling",
     task2: "Packaging",
     task3: "Assembly",
@@ -211,7 +234,85 @@ const metaDescription = document.querySelector('meta[name="description"]');
 const languageStorageKey = "xuncaitek-language";
 const contactEmailButton = document.querySelector("[data-contact-email]");
 const contactEmailFeedback = document.querySelector(".contact-email-feedback");
+const egoFilterContainer = document.querySelector("[data-ego-filters]");
+const egoGallery = document.querySelector("[data-ego-gallery]");
+const egoMarqueeTracks = document.querySelectorAll("[data-ego-marquee]");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
+let activeEgoFilter = "all";
+
+const egoCategories = [
+  { id: "all", en: "All samples", zh: "全部样本" },
+  { id: "electronics", en: "Electronics", zh: "电子装配" },
+  { id: "furniture", en: "Furniture", zh: "家具制造" },
+  { id: "footwear", en: "Footwear", zh: "鞋类加工" },
+  { id: "food-service", en: "Food service", zh: "餐饮服务" },
+  { id: "auto-parts", en: "Auto parts", zh: "汽车配件" },
+  { id: "auto-repair", en: "Auto repair", zh: "汽车维修" },
+  { id: "machinery", en: "Machinery", zh: "机械操作" },
+  { id: "textile", en: "Textile", zh: "纺织任务" },
+  { id: "vegetables", en: "Vegetables", zh: "蔬菜处理" },
+  { id: "floriculture", en: "Floriculture", zh: "花卉作业" },
+  { id: "home-service", en: "Home service", zh: "家政任务" },
+  { id: "chopsticks", en: "Chopsticks", zh: "筷子加工" },
+  { id: "dental-floss", en: "Dental floss", zh: "牙线包装" },
+];
+
+const egoSamples = [
+  { src: "assets/ego/auto-parts-01.webp", category: "auto-parts", index: "01" },
+  { src: "assets/ego/auto-parts-02.webp", category: "auto-parts", index: "02" },
+  { src: "assets/ego/auto-parts-03.webp", category: "auto-parts", index: "03" },
+  { src: "assets/ego/auto-repair-01.webp", category: "auto-repair", index: "01" },
+  { src: "assets/ego/auto-repair-02.webp", category: "auto-repair", index: "02" },
+  { src: "assets/ego/chopsticks-01.webp", category: "chopsticks", index: "01" },
+  { src: "assets/ego/chopsticks-02.webp", category: "chopsticks", index: "02" },
+  { src: "assets/ego/chopsticks-03.webp", category: "chopsticks", index: "03" },
+  { src: "assets/ego/dental-floss-01.webp", category: "dental-floss", index: "01" },
+  { src: "assets/ego/dental-floss-02.webp", category: "dental-floss", index: "02" },
+  { src: "assets/ego/dental-floss-03.webp", category: "dental-floss", index: "03" },
+  { src: "assets/ego/electronics-01.webp", category: "electronics", index: "01" },
+  { src: "assets/ego/electronics-02.webp", category: "electronics", index: "02" },
+  { src: "assets/ego/electronics-03.webp", category: "electronics", index: "03" },
+  { src: "assets/ego/electronics-04.webp", category: "electronics", index: "04" },
+  { src: "assets/ego/electronics-05.webp", category: "electronics", index: "05" },
+  { src: "assets/ego/electronics-06.webp", category: "electronics", index: "06" },
+  { src: "assets/ego/electronics-07.webp", category: "electronics", index: "07" },
+  { src: "assets/ego/electronics-08.webp", category: "electronics", index: "08" },
+  { src: "assets/ego/floriculture-01.webp", category: "floriculture", index: "01" },
+  { src: "assets/ego/floriculture-02.webp", category: "floriculture", index: "02" },
+  { src: "assets/ego/floriculture-03.webp", category: "floriculture", index: "03" },
+  { src: "assets/ego/food-service-01.webp", category: "food-service", index: "01" },
+  { src: "assets/ego/food-service-02.webp", category: "food-service", index: "02" },
+  { src: "assets/ego/food-service-03.webp", category: "food-service", index: "03" },
+  { src: "assets/ego/food-service-04.webp", category: "food-service", index: "04" },
+  { src: "assets/ego/footwear-01.webp", category: "footwear", index: "01" },
+  { src: "assets/ego/footwear-02.webp", category: "footwear", index: "02" },
+  { src: "assets/ego/footwear-03.webp", category: "footwear", index: "03" },
+  { src: "assets/ego/footwear-04.webp", category: "footwear", index: "04" },
+  { src: "assets/ego/footwear-05.webp", category: "footwear", index: "05" },
+  { src: "assets/ego/footwear-06.webp", category: "footwear", index: "06" },
+  { src: "assets/ego/footwear-07.webp", category: "footwear", index: "07" },
+  { src: "assets/ego/footwear-08.webp", category: "footwear", index: "08" },
+  { src: "assets/ego/furniture-01.webp", category: "furniture", index: "01" },
+  { src: "assets/ego/furniture-02.webp", category: "furniture", index: "02" },
+  { src: "assets/ego/furniture-03.webp", category: "furniture", index: "03" },
+  { src: "assets/ego/furniture-04.webp", category: "furniture", index: "04" },
+  { src: "assets/ego/furniture-05.webp", category: "furniture", index: "05" },
+  { src: "assets/ego/furniture-06.webp", category: "furniture", index: "06" },
+  { src: "assets/ego/furniture-07.webp", category: "furniture", index: "07" },
+  { src: "assets/ego/furniture-08.webp", category: "furniture", index: "08" },
+  { src: "assets/ego/home-service-01.webp", category: "home-service", index: "01" },
+  { src: "assets/ego/home-service-02.webp", category: "home-service", index: "02" },
+  { src: "assets/ego/machinery-01.webp", category: "machinery", index: "01" },
+  { src: "assets/ego/machinery-02.webp", category: "machinery", index: "02" },
+  { src: "assets/ego/textile-01.webp", category: "textile", index: "01" },
+  { src: "assets/ego/textile-02.webp", category: "textile", index: "02" },
+  { src: "assets/ego/textile-03.webp", category: "textile", index: "03" },
+  { src: "assets/ego/vegetables-01.webp", category: "vegetables", index: "01" },
+  { src: "assets/ego/vegetables-02.webp", category: "vegetables", index: "02" },
+  { src: "assets/ego/vegetables-03.webp", category: "vegetables", index: "03" },
+  { src: "assets/ego/vegetables-04.webp", category: "vegetables", index: "04" },
+  { src: "assets/ego/vegetables-05.webp", category: "vegetables", index: "05" },
+];
 
 function setLanguage(lang) {
   currentLanguage = translations[lang] ? lang : "en";
@@ -236,11 +337,107 @@ function setLanguage(lang) {
   });
 
   localStorage.setItem(languageStorageKey, currentLanguage);
+  renderEgoModule();
 }
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => setLanguage(button.dataset.lang));
 });
+
+function getEgoCategory(id) {
+  return egoCategories.find((category) => category.id === id) || egoCategories[0];
+}
+
+function getEgoLabel(id) {
+  const category = getEgoCategory(id);
+  return category[currentLanguage] || category.en;
+}
+
+function createEgoImageCard(sample, variant = "grid") {
+  const categoryLabel = getEgoLabel(sample.category);
+  const figure = document.createElement("figure");
+  figure.className = variant === "marquee" ? "ego-marquee-card" : "ego-card";
+  figure.dataset.category = sample.category;
+
+  const image = document.createElement("img");
+  image.src = sample.src;
+  image.alt = `${categoryLabel} EGO sample ${sample.index}`;
+  image.loading = "lazy";
+  image.decoding = "async";
+
+  const caption = document.createElement("figcaption");
+  const title = document.createElement("span");
+  title.textContent = categoryLabel;
+  const code = document.createElement("small");
+  code.textContent = `EGO-${sample.index}`;
+
+  caption.append(title, code);
+  figure.append(image, caption);
+  return figure;
+}
+
+function renderEgoFilters() {
+  if (!egoFilterContainer) {
+    return;
+  }
+
+  egoFilterContainer.textContent = "";
+
+  egoCategories.forEach((category) => {
+    const button = document.createElement("button");
+    const isActive = category.id === activeEgoFilter;
+    button.type = "button";
+    button.className = "ego-filter";
+    button.dataset.egoFilter = category.id;
+    button.textContent = category[currentLanguage] || category.en;
+    button.setAttribute("aria-pressed", String(isActive));
+    button.classList.toggle("active", isActive);
+    button.addEventListener("click", () => {
+      activeEgoFilter = category.id;
+      renderEgoModule();
+    });
+    egoFilterContainer.appendChild(button);
+  });
+}
+
+function renderEgoGallery() {
+  if (!egoGallery) {
+    return;
+  }
+
+  const samples =
+    activeEgoFilter === "all"
+      ? egoSamples
+      : egoSamples.filter((sample) => sample.category === activeEgoFilter);
+
+  egoGallery.textContent = "";
+  samples.forEach((sample) => {
+    egoGallery.appendChild(createEgoImageCard(sample));
+  });
+}
+
+function renderEgoMarquee() {
+  if (!egoMarqueeTracks.length) {
+    return;
+  }
+
+  const firstTrack = egoSamples.slice(11, 29);
+  const secondTrack = [...egoSamples.slice(29, 45), ...egoSamples.slice(0, 6)];
+  const tracks = [firstTrack, secondTrack];
+
+  egoMarqueeTracks.forEach((track, index) => {
+    track.textContent = "";
+    [...tracks[index], ...tracks[index]].forEach((sample) => {
+      track.appendChild(createEgoImageCard(sample, "marquee"));
+    });
+  });
+}
+
+function renderEgoModule() {
+  renderEgoFilters();
+  renderEgoGallery();
+  renderEgoMarquee();
+}
 
 function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {

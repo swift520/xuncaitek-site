@@ -40,6 +40,7 @@
         <nav class="main-nav" aria-label="Primary navigation">
           <a href="#solution" data-i18n="navSolution">Solution</a>
           <a href="#scenes" data-i18n="navScenes">Scenes</a>
+          <a href="#ego-gallery" data-i18n="navSamples">Samples</a>
           <a href="#delivery" data-i18n="navDelivery">Delivery</a>
           <a href="#contact" data-i18n="navContact">Contact</a>
         </nav>
@@ -214,29 +215,51 @@
           </div>
         </section>
 
-        <section class="section gallery-section" aria-labelledby="gallery-title">
-          <div class="section-heading compact">
-            <p class="eyebrow" data-i18n="galleryEyebrow">Project Samples</p>
-            <h2 id="gallery-title" data-i18n="galleryTitle">EGO data collection tasks already in motion.</h2>
+        <section class="section ego-section" id="ego-gallery" aria-labelledby="ego-title">
+          <div class="ego-heading-row">
+            <div class="section-heading compact">
+              <p class="eyebrow" data-i18n="egoEyebrow">EGO Sample Library</p>
+              <h2 id="ego-title" data-i18n="egoTitle">A field view of real collection scenes.</h2>
+              <p data-i18n="egoBody">
+                First-person capture samples from production, service, agricultural and household tasks show the physical detail needed for embodied AI training data.
+              </p>
+            </div>
+            <div class="ego-stat-stack" aria-label="EGO collection highlights">
+              <div>
+                <strong>54</strong>
+                <span data-i18n="egoStatImages">sample frames</span>
+              </div>
+              <div>
+                <strong>13</strong>
+                <span data-i18n="egoStatScenes">task families</span>
+              </div>
+              <div>
+                <strong>EGO</strong>
+                <span data-i18n="egoStatView">first-person view</span>
+              </div>
+            </div>
           </div>
-          <div class="task-gallery">
-            <figure>
-              <img src="assets/drilling-task.webp" alt="Fine drilling operation data collection" loading="lazy" />
-              <figcaption data-i18n="task1">Drilling</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/packaging-task.webp" alt="Packaging task data collection" loading="lazy" />
-              <figcaption data-i18n="task2">Packaging</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/threading-task.webp" alt="Threading and assembly task data collection" loading="lazy" />
-              <figcaption data-i18n="task3">Assembly</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/wrapping-task.webp" alt="Yarn threading task data collection" loading="lazy" />
-              <figcaption data-i18n="task4">Threading</figcaption>
-            </figure>
+
+          <div class="ego-showcase">
+            <article class="ego-feature-card">
+              <img src="assets/ego/electronics-01.webp" alt="First-person electronics assembly data collection" loading="lazy" />
+              <div>
+                <span data-i18n="egoFeatureKicker">Representative sample</span>
+                <h3 data-i18n="egoFeatureTitle">Hands, tools and workstations captured from the operator's view.</h3>
+                <p data-i18n="egoFeatureBody">
+                  The gallery preserves occlusion, lighting, hand-object contact and workflow variation from real work sites.
+                </p>
+              </div>
+            </article>
+
+            <div class="ego-marquee" aria-label="Scrolling EGO image samples">
+              <div class="ego-marquee-track" data-ego-marquee="primary"></div>
+              <div class="ego-marquee-track reverse" data-ego-marquee="secondary"></div>
+            </div>
           </div>
+
+          <div class="ego-controls" aria-label="EGO sample filters" data-ego-filters></div>
+          <div class="ego-gallery-grid" data-ego-gallery></div>
         </section>
 
         <section class="section delivery" id="delivery" aria-labelledby="delivery-title">
