@@ -2,7 +2,6 @@ const translations = {
   zh: {
     pageTitle: "长辰迅采 | 具身智能数据采集与标注",
     metaDescription: "福州长辰迅采软件技术有限公司专注具身智能无本体数据采集、标注、质检与数据集交付。",
-    brandShort: "长辰迅采",
     navSolution: "方案",
     navScenes: "场景",
     navDelivery: "交付",
@@ -97,12 +96,10 @@ const translations = {
       "长辰迅采期待与机器人企业、具身大模型团队、科研机构、场景方和地方产业伙伴，共建工业、家庭、商业三类标杆数据集。",
     contactButton: "发起合作咨询",
     footerCompany: "福州长辰迅采软件技术有限公司",
-    footerNote: "Body-free embodied AI data collection, annotation and dataset delivery.",
   },
   en: {
     pageTitle: "XUNCAITEK | Embodied AI Data Collection",
     metaDescription: "XUNCAITEK provides body-free embodied AI data collection, annotation, QA and dataset delivery.",
-    brandShort: "XUNCAITEK",
     navSolution: "Solution",
     navScenes: "Scenes",
     navDelivery: "Delivery",
@@ -203,7 +200,6 @@ const translations = {
       "XUNCAITEK looks forward to working with robotics companies, embodied model teams, research institutions, scene partners and local industry ecosystems to build benchmark datasets for industrial, home and commercial robots.",
     contactButton: "Start Collaboration",
     footerCompany: "XUNCAITEK",
-    footerNote: "Body-free embodied AI data collection, annotation and dataset delivery.",
   },
 };
 
