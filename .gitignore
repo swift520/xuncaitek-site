@@ -12,6 +12,12 @@ EGO/
 # Local high-resolution third-person wearing scene source images
 佩戴场景/
 
+# Local high-resolution scene source images
+场景/
+
+# Local product source images
+产品/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

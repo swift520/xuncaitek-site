@@ -1,21 +1,22 @@
 const translations = {
   zh: {
-    pageTitle: "长辰迅采 | 具身智能数据采集与标注",
-    metaDescription: "福州长辰迅采软件技术有限公司专注具身智能无本体数据采集、标注、质检与数据集交付。",
+    pageTitle: "长辰迅采 | 具身智能无本体数据采集代理商",
+    metaDescription:
+      "福州长辰迅采软件技术有限公司是具身智能无本体数据采集代理商，提供采集、标注、质检与数据集交付。",
     navSolution: "方案",
     navScenes: "场景",
     navSamples: "样本",
     navDelivery: "交付",
     navContact: "联系",
-    heroEyebrow: "具身智能无本体数据服务商",
+    heroEyebrow: "具身智能无本体数据采集代理商",
     heroTitle: "长辰迅采",
     heroSubtitle:
-      "工厂实景数采，赋能具身智能。以第一人称 Ego 视频、穿戴动捕、多模态同步与精细标注，构建可直接进入 VLA 训练流程的数据集。",
+      "全行业实景数采，EGO、UMI、多模态同步与精细标注，助力无本体数据规模化采集。",
     ctaTalk: "预约项目沟通",
     ctaFlow: "查看采集流程",
-    metricFactories: "50+",
-    metricFactoriesLabel: "已合作/可拓展工厂",
-    metricStations: "3000+",
+    metricFactories: "100+",
+    metricFactoriesLabel: "已合作/可拓展场景",
+    metricStations: "2000+",
     metricStationsLabel: "可复用采集工位",
     metricHours: "50,000h+",
     metricHoursLabel: "规划月采集产能",
@@ -33,7 +34,7 @@ const translations = {
     problemCard2Title: "真实长尾场景",
     problemCard2Text: "采集真实人类操作与环境交互，补足仿真合成数据的 Sim2Real Gap。",
     problemCard3Title: "可训练资产",
-    problemCard3Text: "交付的不只是视频，而是含视觉、动作、语义、质量记录的数据资产。",
+    problemCard3Text: "交付的不只是视频，而是含视觉、语音、动作、语义的数据资产。",
     solutionEyebrow: "公司方案",
     solutionTitle: "面向 VLA 训练的数据采集与标注工程平台。",
     solutionBody:
@@ -41,15 +42,15 @@ const translations = {
     cap1Title: "场景资源链接",
     cap1Text: "覆盖福建、广东、浙江等制造业重点区域。",
     cap2Title: "多模态采集",
-    cap2Text: "第一视角、多机位视频、动捕、数据手套、VR/AR 设备。",
+    cap2Text: "支持第一视角、多机位视频、动捕、触觉手套、VR/AR 设备。",
     cap3Title: "交付格式适配",
     cap3Text: "支持 RLDS、LeRobot、HDF5、Parquet 与定制 Schema。",
-    pipelineEyebrow: "How It Works",
+    pipelineEyebrow: "采集流程",
     pipelineTitle: "五步形成可训练数据集。",
-    step1Title: "场景搭建",
+    step1Title: "场景链接",
     step1Text: "工厂、家庭、商超、餐饮、物流等真实任务场景标准化。",
     step2Title: "穿戴采集",
-    step2Text: "第一视角眼镜、动捕、数据手套、VR/AR 设备采集人类操作。",
+    step2Text: "第一视角、多机位视频、动捕、数据手套、VR/AR 设备。",
     step3Title: "时间同步",
     step3Text: "多机位、多传感器统一时间戳，生成可训练时序数据。",
     step4Title: "数据标注",
@@ -72,13 +73,15 @@ const translations = {
     egoTitle: "真实采集场景的第一视角样本。",
     egoBody:
       "来自生产、服务、农业和家庭任务的第一视角采集样本，展示具身智能训练数据所需的真实物理细节。",
+    egoSampleNote: "示例仅供展示。以下为经脱敏处理的项目样本，不展示完整客户交付数据。",
+    egoSampleBadge: "示例仅供展示",
     egoFeatureKicker: "代表性样本",
     egoFeatureTitle: "从操作者视角捕捉双手、工具与工位。",
     egoFeatureBody: "图库保留真实作业现场中的遮挡、光照、手物接触和流程差异。",
-    thirdPersonEyebrow: "佩戴现场外部视角",
-    thirdPersonTitle: "用外部画面补全穿戴采集现场。",
+    thirdPersonEyebrow: "已开展项目",
+    thirdPersonTitle: "已开展项目中的采集人员佩戴场景。",
     thirdPersonBody:
-      "混合拼贴呈现设备佩戴状态、人员姿态、机位覆盖和真实作业环境，与第一视角数据形成互补。",
+      "照片仅用于展示已开展项目的采集人员佩戴场景，不涉及完整客户交付数据。",
     task1: "打孔 / Drilling",
     task2: "包装 / Packaging",
     task3: "组装 / Assembly",
@@ -98,7 +101,7 @@ const translations = {
     deliveryBody:
       "数据字段覆盖 RGB 视频、帧 ID、相机参数、手部轨迹、关键点、动作阶段、接触状态、物体类别、自然语言指令、异常片段与质检记录。",
     proofEyebrow: "核心优势",
-    proofTitle: "资源、项目管理与数据工程能力合在一起，才是稳定交付。",
+    proofTitle: "集成资源、项目管理与数据工程三大能力，确保数据稳定交付。",
     proof1: "场景多样：覆盖标准产线、柔性制造、服务空间与复杂手工艺。",
     proof2: "地域广泛：深耕福建，并延展至广东、浙江等制造业聚集省份。",
     proof3: "经验完整：具备工厂实景 Ego 数据采集全流程服务经验。",
@@ -111,22 +114,23 @@ const translations = {
     contactEmailFallback: "联系邮箱：ligchen_xuncaitech@163.com",
   },
   en: {
-    pageTitle: "XUNCAITEK | Embodied AI Data Collection",
-    metaDescription: "XUNCAITEK provides body-free embodied AI data collection, annotation, QA and dataset delivery.",
+    pageTitle: "XUNCAITEK | Body-free Embodied AI Data Collection Agency",
+    metaDescription:
+      "XUNCAITEK is a body-free embodied AI data collection agency providing collection, annotation, QA and dataset delivery.",
     navSolution: "Solution",
     navScenes: "Scenes",
     navSamples: "Samples",
     navDelivery: "Delivery",
     navContact: "Contact",
-    heroEyebrow: "Body-free embodied AI data partner",
+    heroEyebrow: "Body-free embodied AI data collection agency",
     heroTitle: "XUNCAITEK",
     heroSubtitle:
-      "Real-world factory data collection for embodied intelligence. We combine first-person Ego video, wearable motion capture, multimodal synchronization and detailed annotation to deliver datasets ready for VLA training.",
+      "All-industry real-world data collection with EGO, UMI, multimodal synchronization and fine annotation to support scalable body-free data collection.",
     ctaTalk: "Discuss a Project",
     ctaFlow: "View Workflow",
-    metricFactories: "50+",
-    metricFactoriesLabel: "Partnered or expandable factories",
-    metricStations: "3000+",
+    metricFactories: "100+",
+    metricFactoriesLabel: "Partnered or expandable scenes",
+    metricStations: "2000+",
     metricStationsLabel: "Reusable collection workstations",
     metricHours: "50,000h+",
     metricHoursLabel: "Planned monthly capacity",
@@ -147,7 +151,7 @@ const translations = {
       "Capture human operation and environmental interaction in the real world to reduce the Sim2Real gap left by synthetic data.",
     problemCard3Title: "Trainable assets",
     problemCard3Text:
-      "The deliverable is not just video. It is a data asset with vision, action, semantics and quality records.",
+      "The deliverable is not just video. It is a data asset with vision, speech, action and semantics.",
     solutionEyebrow: "Company Solution",
     solutionTitle: "A data collection and annotation engineering platform for VLA training.",
     solutionBody:
@@ -155,15 +159,15 @@ const translations = {
     cap1Title: "Scene sourcing",
     cap1Text: "Coverage across manufacturing hubs including Fujian, Guangdong and Zhejiang.",
     cap2Title: "Multimodal capture",
-    cap2Text: "Ego view, multi-camera video, motion capture, data gloves and VR/AR equipment.",
+    cap2Text: "Supports first-person views, multi-camera video, motion capture, tactile gloves and VR/AR equipment.",
     cap3Title: "Format adaptation",
     cap3Text: "Support for RLDS, LeRobot, HDF5, Parquet and custom schemas.",
     pipelineEyebrow: "How It Works",
     pipelineTitle: "Five steps from scene to trainable dataset.",
-    step1Title: "Scene setup",
+    step1Title: "Scene linking",
     step1Text: "Standardize real task environments across factories, homes, retail, food service and logistics.",
     step2Title: "Wearable capture",
-    step2Text: "Collect human operation with Ego glasses, motion capture, data gloves and VR/AR devices.",
+    step2Text: "First-person views, multi-camera video, motion capture, data gloves and VR/AR equipment.",
     step3Title: "Time sync",
     step3Text: "Align multi-camera and multi-sensor streams with unified timestamps for sequential training data.",
     step4Title: "Annotation",
@@ -189,14 +193,17 @@ const translations = {
     egoTitle: "A field view of real collection scenes.",
     egoBody:
       "First-person capture samples from production, service, agricultural and household tasks show the physical detail needed for embodied AI training data.",
+    egoSampleNote:
+      "Examples for display only. Selected samples are desensitized and do not disclose complete customer deliverables.",
+    egoSampleBadge: "Display example only",
     egoFeatureKicker: "Representative sample",
     egoFeatureTitle: "Hands, tools and workstations captured from the operator's view.",
     egoFeatureBody:
       "The gallery preserves occlusion, lighting, hand-object contact and workflow variation from real work sites.",
-    thirdPersonEyebrow: "On-site Wearable Views",
-    thirdPersonTitle: "External views complete the context around wearable collection.",
+    thirdPersonEyebrow: "Completed Projects",
+    thirdPersonTitle: "Wearable collection scenes from projects already in motion.",
     thirdPersonBody:
-      "A mixed field wall shows device wearing state, operator posture, camera coverage and the real work environment alongside the first-person data stream.",
+      "Photos are used only to show collection staff wearing devices in completed project environments.",
     task1: "Drilling",
     task2: "Packaging",
     task3: "Assembly",
@@ -216,7 +223,7 @@ const translations = {
     deliveryBody:
       "Fields cover RGB video, frame IDs, camera parameters, hand trajectories, keypoints, action phases, contact states, object classes, natural-language instructions, anomaly clips and QA records.",
     proofEyebrow: "Advantages",
-    proofTitle: "Scene resources, project management and data engineering together enable reliable delivery.",
+    proofTitle: "Integrated scene resources, project management and data engineering ensure stable data delivery.",
     proof1: "Diverse scenes: standard production lines, flexible manufacturing, service spaces and complex craft workflows.",
     proof2: "Wide regional reach: rooted in Fujian and extended to manufacturing clusters in Guangdong and Zhejiang.",
     proof3: "Complete experience: end-to-end service capability for real-world factory Ego data collection.",
@@ -236,9 +243,26 @@ const metaDescription = document.querySelector('meta[name="description"]');
 const languageStorageKey = "xuncaitek-language";
 const contactEmailButton = document.querySelector("[data-contact-email]");
 const contactEmailFeedback = document.querySelector(".contact-email-feedback");
+const sceneMarqueeTracks = document.querySelectorAll("[data-scene-marquee]");
+const egoMarquee = document.querySelector(".ego-marquee");
 const egoMarqueeTracks = document.querySelectorAll("[data-ego-marquee]");
 const thirdPersonMosaic = document.querySelector("[data-third-person-mosaic]");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
+let egoMotionInitialized = false;
+let thirdPersonResizeFrame = null;
+
+const egoMotion = {
+  offsets: new WeakMap(),
+  frame: null,
+  lastFrameTime: 0,
+  manualVelocity: 0,
+  lastInputTime: 0,
+  pointerInside: false,
+  touchActive: false,
+  pointerAnchorX: 0,
+  lastPointerX: 0,
+  lastPointerTime: 0,
+};
 
 const egoCategories = [
   { id: "all", en: "All samples", zh: "全部样本" },
@@ -255,6 +279,23 @@ const egoCategories = [
   { id: "home-service", en: "Home service", zh: "家政任务" },
   { id: "chopsticks", en: "Chopsticks", zh: "筷子加工" },
   { id: "dental-floss", en: "Dental floss", zh: "牙线包装" },
+];
+
+const sceneSamples = [
+  { src: "assets/scenes/scene-01.webp", variant: "standard" },
+  { src: "assets/scenes/scene-02.webp", variant: "standard" },
+  { src: "assets/scenes/scene-03.webp", variant: "wide" },
+  { src: "assets/scenes/scene-04.webp", variant: "wide" },
+  { src: "assets/scenes/scene-05.webp", variant: "standard" },
+  { src: "assets/scenes/scene-06.webp", variant: "standard" },
+  { src: "assets/scenes/scene-07.webp", variant: "wide" },
+  { src: "assets/scenes/scene-08.webp", variant: "wide" },
+  { src: "assets/scenes/scene-09.webp", variant: "wide" },
+  { src: "assets/scenes/scene-10.webp", variant: "wide" },
+  { src: "assets/scenes/scene-11.webp", variant: "standard" },
+  { src: "assets/scenes/scene-12.webp", variant: "standard" },
+  { src: "assets/scenes/scene-13.webp", variant: "standard" },
+  { src: "assets/scenes/scene-14.webp", variant: "standard" },
 ];
 
 const egoSamples = [
@@ -315,9 +356,9 @@ const egoSamples = [
 ];
 
 const thirdPersonSamples = [
-  { src: "assets/third-person/landscape-01.webp", index: "01", variant: "hero" },
+  { src: "assets/third-person/landscape-04.webp", index: "01", variant: "hero" },
   { src: "assets/third-person/portrait-01.webp", index: "02", variant: "tall" },
-  { src: "assets/third-person/landscape-04.webp", index: "03", variant: "square" },
+  { src: "assets/third-person/landscape-01.webp", index: "03", variant: "square" },
   { src: "assets/third-person/portrait-02.webp", index: "04", variant: "small" },
   { src: "assets/third-person/landscape-02.webp", index: "05", variant: "wide" },
   { src: "assets/third-person/portrait-03.webp", index: "06", variant: "tall" },
@@ -325,11 +366,26 @@ const thirdPersonSamples = [
   { src: "assets/third-person/portrait-04.webp", index: "08", variant: "square" },
   { src: "assets/third-person/landscape-03.webp", index: "09", variant: "wide" },
   { src: "assets/third-person/portrait-05.webp", index: "10", variant: "tall" },
-  { src: "assets/third-person/landscape-06.webp", index: "11", variant: "square" },
-  { src: "assets/third-person/portrait-06.webp", index: "12", variant: "small" },
-  { src: "assets/third-person/portrait-07.webp", index: "13", variant: "tall" },
-  { src: "assets/third-person/portrait-08.webp", index: "14", variant: "square" },
+  { src: "assets/third-person/portrait-06.webp", index: "11", variant: "tall" },
 ];
+
+const thirdPersonLayouts = {
+  4: [
+    [0, 5, 8],
+    [1, 9],
+    [2, 4, 7],
+    [3, 6, 10],
+  ],
+  3: [
+    [0, 5, 8, 7],
+    [1, 4, 9],
+    [2, 10, 3, 6],
+  ],
+  2: [
+    [0, 5, 8, 7, 9],
+    [1, 10, 2, 4, 3, 6],
+  ],
+};
 
 function setLanguage(lang) {
   currentLanguage = translations[lang] ? lang : "en";
@@ -354,6 +410,7 @@ function setLanguage(lang) {
   });
 
   localStorage.setItem(languageStorageKey, currentLanguage);
+  renderSceneModule();
   renderEgoModule();
   renderThirdPersonModule();
 }
@@ -364,6 +421,43 @@ buttons.forEach((button) => {
 
 function getEgoCategory(id) {
   return egoCategories.find((category) => category.id === id) || egoCategories[0];
+}
+
+function createSceneImageCard(sample, index) {
+  const figure = document.createElement("figure");
+  figure.className = `scene-marquee-card is-${sample.variant}`;
+
+  const image = document.createElement("img");
+  image.src = sample.src;
+  image.alt =
+    currentLanguage === "zh"
+      ? `真实采集场景 ${index + 1}`
+      : `Real collection scene ${index + 1}`;
+  image.loading = "lazy";
+  image.decoding = "async";
+
+  figure.append(image);
+  return figure;
+}
+
+function renderSceneMarquee() {
+  if (!sceneMarqueeTracks.length) {
+    return;
+  }
+
+  const tracks = [sceneSamples.slice(0, 7), sceneSamples.slice(7)];
+
+  sceneMarqueeTracks.forEach((track, index) => {
+    track.textContent = "";
+    [...tracks[index], ...tracks[index]].forEach((sample, sampleIndex) => {
+      const sceneIndex = sceneSamples.indexOf(sample);
+      track.appendChild(createSceneImageCard(sample, sceneIndex >= 0 ? sceneIndex : sampleIndex));
+    });
+  });
+}
+
+function renderSceneModule() {
+  renderSceneMarquee();
 }
 
 function getEgoLabel(id) {
@@ -383,12 +477,16 @@ function createEgoImageCard(sample) {
   image.loading = "lazy";
   image.decoding = "async";
 
+  const badge = document.createElement("span");
+  badge.className = "ego-sample-badge";
+  badge.textContent = translations[currentLanguage].egoSampleBadge;
+
   const caption = document.createElement("figcaption");
   const title = document.createElement("span");
   title.textContent = categoryLabel;
 
   caption.append(title);
-  figure.append(image, caption);
+  figure.append(image, badge, caption);
   return figure;
 }
 
@@ -407,10 +505,163 @@ function renderEgoMarquee() {
       track.appendChild(createEgoImageCard(sample));
     });
   });
+
+  initializeEgoMotion();
 }
 
 function renderEgoModule() {
   renderEgoMarquee();
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function wrapEgoOffset(offset, loopWidth) {
+  if (!loopWidth) {
+    return 0;
+  }
+
+  let wrapped = offset;
+  while (wrapped > 0) {
+    wrapped -= loopWidth;
+  }
+  while (wrapped <= -loopWidth) {
+    wrapped += loopWidth;
+  }
+  return wrapped;
+}
+
+function setEgoManualVelocity(value) {
+  egoMotion.manualVelocity = clamp(value, -640, 640);
+  egoMotion.lastInputTime = performance.now();
+}
+
+function stepEgoMotion(timestamp) {
+  if (!egoMotion.lastFrameTime) {
+    egoMotion.lastFrameTime = timestamp;
+  }
+
+  const deltaSeconds = Math.min((timestamp - egoMotion.lastFrameTime) / 1000, 0.05);
+  egoMotion.lastFrameTime = timestamp;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const baseSpeed = reduceMotion ? 0 : 82;
+  const timeSinceInput = timestamp - egoMotion.lastInputTime;
+  const shouldDecay = !egoMotion.touchActive && !egoMotion.pointerInside && timeSinceInput > 90;
+
+  if (shouldDecay) {
+    egoMotion.manualVelocity *= Math.pow(0.84, deltaSeconds * 60);
+    if (Math.abs(egoMotion.manualVelocity) < 1) {
+      egoMotion.manualVelocity = 0;
+    }
+  }
+
+  const manualActive =
+    Math.abs(egoMotion.manualVelocity) > 8 &&
+    (egoMotion.pointerInside || egoMotion.touchActive || timeSinceInput < 650);
+
+  egoMarqueeTracks.forEach((track) => {
+    const loopWidth = track.scrollWidth / 2;
+    const defaultDirection = track.dataset.egoMarquee === "secondary" ? 1 : -1;
+    const currentOffset = egoMotion.offsets.get(track) || 0;
+    const velocity = manualActive ? egoMotion.manualVelocity : defaultDirection * baseSpeed;
+    const nextOffset = wrapEgoOffset(currentOffset + velocity * deltaSeconds, loopWidth);
+
+    egoMotion.offsets.set(track, nextOffset);
+    track.style.transform = `translate3d(${nextOffset}px, 0, 0)`;
+  });
+
+  egoMotion.frame = requestAnimationFrame(stepEgoMotion);
+}
+
+function updateEgoPointerVelocity(clientX) {
+  const now = performance.now();
+  const deltaX = clientX - egoMotion.lastPointerX;
+  const deltaTime = Math.max(now - egoMotion.lastPointerTime, 16);
+
+  if (egoMotion.lastPointerTime) {
+    setEgoManualVelocity((deltaX / deltaTime) * 1000 * 1.05);
+  }
+
+  egoMotion.lastPointerX = clientX;
+  egoMotion.lastPointerTime = now;
+}
+
+function updateEgoHoverVelocity(clientX) {
+  const rect = egoMarquee.getBoundingClientRect();
+  const range = Math.max(rect.width * 0.36, 90);
+  const distance = clientX - egoMotion.pointerAnchorX;
+  const normalized = clamp(distance / range, -1, 1);
+  const eased = Math.sign(normalized) * Math.pow(Math.abs(normalized), 1.22);
+
+  setEgoManualVelocity(eased * 640);
+}
+
+function initializeEgoMotion() {
+  if (!egoMarquee || egoMotionInitialized) {
+    return;
+  }
+
+  egoMotionInitialized = true;
+  egoMotion.frame = requestAnimationFrame(stepEgoMotion);
+
+  egoMarquee.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse" || event.pointerType === "pen") {
+      egoMotion.pointerInside = true;
+      egoMotion.pointerAnchorX = event.clientX;
+      egoMotion.lastPointerX = event.clientX;
+      egoMotion.lastPointerTime = performance.now();
+    }
+  });
+
+  egoMarquee.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "mouse" || event.pointerType === "pen") {
+      if (egoMotion.pointerInside) {
+        updateEgoHoverVelocity(event.clientX);
+      }
+      return;
+    }
+
+    if (egoMotion.touchActive) {
+      updateEgoPointerVelocity(event.clientX);
+    }
+  });
+
+  egoMarquee.addEventListener("pointerleave", (event) => {
+    if (event.pointerType === "mouse" || event.pointerType === "pen") {
+      egoMotion.pointerInside = false;
+      egoMotion.manualVelocity = 0;
+      egoMotion.pointerAnchorX = 0;
+      egoMotion.lastPointerTime = 0;
+    }
+  });
+
+  egoMarquee.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "touch") {
+      return;
+    }
+
+    egoMotion.touchActive = true;
+    egoMotion.lastPointerX = event.clientX;
+    egoMotion.lastPointerTime = performance.now();
+    egoMarquee.setPointerCapture(event.pointerId);
+  });
+
+  egoMarquee.addEventListener("pointerup", (event) => {
+    if (event.pointerType === "touch") {
+      egoMotion.touchActive = false;
+      egoMotion.lastPointerTime = 0;
+    }
+  });
+
+  egoMarquee.addEventListener("pointercancel", (event) => {
+    if (event.pointerType === "touch") {
+      egoMotion.touchActive = false;
+      egoMotion.manualVelocity = 0;
+      egoMotion.lastPointerTime = 0;
+    }
+  });
 }
 
 function createThirdPersonCard(sample) {
@@ -425,9 +676,60 @@ function createThirdPersonCard(sample) {
       : `Third-person wearable scene sample ${sample.index}`;
   image.loading = "lazy";
   image.decoding = "async";
+  image.addEventListener("load", scheduleThirdPersonFadeUpdate, { once: true });
 
   figure.append(image);
   return figure;
+}
+
+function getThirdPersonColumnCount() {
+  if (window.matchMedia("(max-width: 680px)").matches) {
+    return 2;
+  }
+
+  if (window.matchMedia("(max-width: 980px)").matches) {
+    return 3;
+  }
+
+  return 4;
+}
+
+function updateThirdPersonFade() {
+  if (!thirdPersonMosaic) {
+    return;
+  }
+
+  const columns = [...thirdPersonMosaic.querySelectorAll(".third-person-column")];
+  if (!columns.length) {
+    return;
+  }
+
+  thirdPersonMosaic.style.height = "auto";
+  const heights = columns
+    .map((column) => {
+      const cards = [...column.querySelectorAll(".third-person-card")];
+      const gap = parseFloat(window.getComputedStyle(column).rowGap) || 0;
+      const contentHeight = cards.reduce((height, card) => height + card.getBoundingClientRect().height, 0);
+
+      return contentHeight + Math.max(cards.length - 1, 0) * gap;
+    })
+    .filter((height) => height > 0);
+
+  if (!heights.length) {
+    return;
+  }
+
+  const shortestColumnHeight = Math.min(...heights);
+  const fadeSpan = clamp(shortestColumnHeight * 0.44, 220, 460);
+
+  thirdPersonMosaic.style.setProperty("--third-person-fade-span", `${Math.round(fadeSpan)}px`);
+  thirdPersonMosaic.style.height = `${Math.ceil(shortestColumnHeight)}px`;
+}
+
+function scheduleThirdPersonFadeUpdate() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(updateThirdPersonFade);
+  });
 }
 
 function renderThirdPersonModule() {
@@ -435,10 +737,27 @@ function renderThirdPersonModule() {
     return;
   }
 
+  const columnCount = getThirdPersonColumnCount();
+  const layout = thirdPersonLayouts[columnCount] || thirdPersonLayouts[4];
+
   thirdPersonMosaic.textContent = "";
-  thirdPersonSamples.forEach((sample) => {
-    thirdPersonMosaic.appendChild(createThirdPersonCard(sample));
+  thirdPersonMosaic.dataset.columnCount = String(columnCount);
+
+  layout.forEach((columnSamples) => {
+    const column = document.createElement("div");
+    column.className = "third-person-column";
+
+    columnSamples.forEach((sampleIndex) => {
+      const sample = thirdPersonSamples[sampleIndex];
+      if (sample) {
+        column.appendChild(createThirdPersonCard(sample));
+      }
+    });
+
+    thirdPersonMosaic.appendChild(column);
   });
+
+  scheduleThirdPersonFadeUpdate();
 }
 
 function copyText(text) {
@@ -482,5 +801,25 @@ if (contactEmailButton) {
     window.location.href = contactEmailButton.href;
   });
 }
+
+window.addEventListener("resize", () => {
+  if (!thirdPersonMosaic) {
+    return;
+  }
+
+  if (thirdPersonResizeFrame) {
+    window.cancelAnimationFrame(thirdPersonResizeFrame);
+  }
+
+  thirdPersonResizeFrame = window.requestAnimationFrame(() => {
+    const nextColumnCount = getThirdPersonColumnCount();
+    if (thirdPersonMosaic.dataset.columnCount !== String(nextColumnCount)) {
+      renderThirdPersonModule();
+      return;
+    }
+
+    updateThirdPersonFade();
+  });
+});
 
 setLanguage(currentLanguage);
