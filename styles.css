@@ -728,10 +728,6 @@ h3 {
 }
 
 .third-person-heading-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
-  gap: 2rem;
-  align-items: end;
   margin-bottom: 2.2rem;
 }
 
@@ -739,110 +735,49 @@ h3 {
   margin-bottom: 0;
 }
 
-.third-person-stat-stack {
+.third-person-mosaic {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.7rem;
-}
-
-.third-person-stat-stack div,
-.third-person-card {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--panel);
-  box-shadow: var(--shadow);
-}
-
-.third-person-stat-stack div {
-  padding: 0.85rem;
-}
-
-.third-person-stat-stack strong {
-  display: block;
-  color: var(--white);
-  font-size: 1.45rem;
-  line-height: 1.05;
-}
-
-.third-person-stat-stack span {
-  display: block;
-  margin-top: 0.3rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.35;
-}
-
-.third-person-showcase {
-  display: grid;
-  grid-template-columns: minmax(0, 0.62fr) minmax(300px, 0.38fr);
-  gap: 1.35rem;
-  align-items: start;
-}
-
-.third-person-lane {
-  display: grid;
-  min-width: 0;
-  gap: 1rem;
-}
-
-.third-person-lane-copy {
-  max-width: 660px;
-}
-
-.third-person-lane-copy span {
-  display: inline-flex;
-  margin-bottom: 0.5rem;
-  color: var(--green);
-  font-size: 0.78rem;
-  font-weight: 760;
-}
-
-.third-person-lane-copy h3 {
-  margin-bottom: 0.48rem;
-}
-
-.third-person-lane-copy p {
-  margin-bottom: 0;
-  color: var(--muted);
-}
-
-.third-person-landscape-grid,
-.third-person-portrait-rail {
-  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  grid-auto-rows: 86px;
   gap: 0.85rem;
-}
-
-.third-person-landscape-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.third-person-landscape-grid .third-person-card:first-child {
-  grid-column: 1 / -1;
-  aspect-ratio: 16 / 8.6;
-}
-
-.third-person-portrait-rail {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding-bottom: 1.2rem;
-}
-
-.third-person-portrait-rail .third-person-card:nth-child(even) {
-  transform: translateY(1.2rem);
 }
 
 .third-person-card {
   position: relative;
+  grid-column: span 3;
+  grid-row: span 2;
   margin: 0;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   background: var(--bg-lift);
 }
 
-.third-person-card.is-landscape {
-  aspect-ratio: 16 / 10;
+.third-person-card.is-hero {
+  grid-column: span 6;
+  grid-row: span 4;
 }
 
-.third-person-card.is-portrait {
-  aspect-ratio: 3 / 4;
+.third-person-card.is-wide {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+
+.third-person-card.is-tall {
+  grid-column: span 3;
+  grid-row: span 4;
+}
+
+.third-person-card.is-square {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+
+.third-person-card.is-small {
+  grid-column: span 3;
+  grid-row: span 2;
 }
 
 .third-person-card img {
@@ -856,34 +791,6 @@ h3 {
 .third-person-card:hover img,
 .third-person-card:focus-within img {
   transform: scale(1.035);
-}
-
-.third-person-card figcaption {
-  position: absolute;
-  left: 0.65rem;
-  right: 0.65rem;
-  bottom: 0.65rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 0.6rem;
-  align-items: center;
-  color: var(--text);
-  font-size: 0.78rem;
-  font-weight: 760;
-}
-
-.third-person-card figcaption span,
-.third-person-card figcaption small {
-  padding: 0.26rem 0.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  background: rgba(2, 6, 5, 0.76);
-  backdrop-filter: blur(10px);
-}
-
-.third-person-card figcaption small {
-  color: var(--green);
-  font-size: 0.68rem;
 }
 
 .task-gallery {
@@ -1155,8 +1062,6 @@ h3 {
   .hero-grid,
     .split-section,
     .ego-showcase,
-    .third-person-heading-row,
-    .third-person-showcase,
     .delivery-layout,
     .proof-section,
     .contact-inner {
@@ -1190,12 +1095,34 @@ h3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .third-person-portrait-rail {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .third-person-mosaic {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-auto-rows: 82px;
   }
 
-  .third-person-portrait-rail .third-person-card:nth-child(even) {
-    transform: none;
+  .third-person-card.is-hero {
+    grid-column: span 5;
+    grid-row: span 4;
+  }
+
+  .third-person-card.is-wide {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .third-person-card.is-tall {
+    grid-column: span 3;
+    grid-row: span 4;
+  }
+
+  .third-person-card.is-square {
+    grid-column: span 3;
+    grid-row: span 3;
+  }
+
+  .third-person-card.is-small {
+    grid-column: span 2;
+    grid-row: span 2;
   }
 
   .contact-actions,
@@ -1284,13 +1211,27 @@ h3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .third-person-stat-stack {
-    grid-template-columns: 1fr;
+  .third-person-mosaic {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 92px;
+    gap: 0.65rem;
   }
 
-  .third-person-portrait-rail {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-bottom: 0;
+  .third-person-card.is-hero,
+  .third-person-card.is-wide {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .third-person-card.is-tall {
+    grid-column: span 2;
+    grid-row: span 3;
+  }
+
+  .third-person-card.is-square,
+  .third-person-card.is-small {
+    grid-column: span 2;
+    grid-row: span 2;
   }
 
   .ego-marquee {
@@ -1371,30 +1312,32 @@ h3 {
     font-size: 1rem;
   }
 
-  .third-person-landscape-grid,
   .pipeline,
   .task-gallery {
     grid-template-columns: 1fr;
   }
 
-  .third-person-landscape-grid .third-person-card:first-child {
-    grid-column: auto;
+  .third-person-mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 112px;
+    gap: 0.58rem;
   }
 
-  .third-person-showcase {
-    gap: 1.8rem;
+  .third-person-card.is-hero,
+  .third-person-card.is-wide {
+    grid-column: span 2;
+    grid-row: span 2;
   }
 
-  .third-person-card figcaption {
-    left: 0.5rem;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    font-size: 0.72rem;
+  .third-person-card.is-tall {
+    grid-column: span 1;
+    grid-row: span 2;
   }
 
-  .third-person-card figcaption span,
-  .third-person-card figcaption small {
-    padding: 0.22rem 0.38rem;
+  .third-person-card.is-square,
+  .third-person-card.is-small {
+    grid-column: span 1;
+    grid-row: span 1;
   }
 
   .intro-line {
