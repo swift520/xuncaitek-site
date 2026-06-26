@@ -95,7 +95,6 @@ const translations = {
     contactBody:
       "长辰迅采期待与机器人企业、具身大模型团队、科研机构、场景方和地方产业伙伴，共建工业、家庭、商业三类标杆数据集。",
     contactButton: "发起合作咨询",
-    footerCompany: "福州长辰迅采软件技术有限公司",
   },
   en: {
     pageTitle: "XUNCAITEK | Embodied AI Data Collection",
@@ -199,7 +198,6 @@ const translations = {
     contactBody:
       "XUNCAITEK looks forward to working with robotics companies, embodied model teams, research institutions, scene partners and local industry ecosystems to build benchmark datasets for industrial, home and commercial robots.",
     contactButton: "Start Collaboration",
-    footerCompany: "XUNCAITEK",
   },
 };
 

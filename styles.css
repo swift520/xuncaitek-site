@@ -788,10 +788,20 @@ h3 {
 }
 
 .footer-brand {
-  display: inline-flex;
-  align-items: center;
+  display: grid;
+  justify-items: center;
+  gap: 0.22rem;
   color: var(--text);
+  text-align: center;
+}
+
+.footer-company-cn {
   font-weight: 760;
+}
+
+.footer-company-en {
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 @media (max-width: 980px) {
