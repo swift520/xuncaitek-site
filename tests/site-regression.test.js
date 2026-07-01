@@ -15,13 +15,24 @@ function cssBlock(selector) {
   return match?.groups?.body || "";
 }
 
+function scriptFunctionBody(name) {
+  const match = scriptJs.match(new RegExp(`function ${name}\\([^)]*\\) \\{(?<body>[\\s\\S]*?)\\n\\}`));
+  return match?.groups?.body || "";
+}
+
 test("brand logo and company wordmark actively return to the top", () => {
   assert.match(indexHtml, /<a class="brand" href="#top"[^>]*data-scroll-top/);
   assert.match(scriptJs, /brandHomeLink[\s\S]+scrollTo\(\{[\s\S]+top:\s*0/);
 });
 
-test("site copy uses all-industry wording instead of factory-specific wording", () => {
-  assert.doesNotMatch(visibleSiteSource, /工厂|factory|factories/i);
+test("site copy keeps factory wording scoped to scene linking", () => {
+  assert.match(scriptJs, /step1Text:\s*"工厂、家庭、商超、餐饮、物流等真实任务场景标准化。"/);
+  const sourceWithoutSceneLinking = visibleSiteSource.replaceAll(
+    "工厂、家庭、商超、餐饮、物流等真实任务场景标准化。",
+    "",
+  );
+  assert.doesNotMatch(sourceWithoutSceneLinking, /工厂|factory|factories/i);
+  assert.doesNotMatch(scriptJs, /step1Text:\s*"各行业、家庭、商超、餐饮、物流等真实任务场景标准化。"/);
   assert.match(scriptJs, /各行业/);
   assert.match(scriptJs, /all-industry/i);
 });
@@ -31,8 +42,37 @@ test("advantages headline names scene resources, project management and data eng
   assert.doesNotMatch(scriptJs, /集成资源、项目管理与数据工程三大能力/);
 });
 
-test("co-build heading uses the same green treatment", () => {
-  assert.match(cssBlock(".contact-inner h2"), /color:\s*var\(--green\)/);
+test("glove copy uses data gloves wording", () => {
+  assert.match(scriptJs, /数据手套/);
+  assert.match(visibleSiteSource, /data gloves/i);
+  assert.doesNotMatch(visibleSiteSource, /触觉手套|tactile gloves/i);
+});
+
+test("co-build eyebrow is green and the contact title is white", () => {
+  assert.match(cssBlock(".eyebrow"), /color:\s*var\(--green\)/);
+  assert.match(cssBlock(".contact-section .eyebrow"), /color:\s*var\(--green\)/);
+  assert.match(cssBlock(".contact-inner h2"), /color:\s*var\(--text\)/);
+  assert.doesNotMatch(cssBlock(".contact-inner h2"), /color:\s*var\(--green\)/);
+});
+
+test("EGO sample feature image uses the requested footwear source", () => {
+  assert.match(indexHtml, /<img src="EGO\/鞋2\.png"[^>]*alt="First-person footwear data collection sample"/);
+});
+
+test("EGO marquee uses an explicit mixed playback order", () => {
+  assert.match(scriptJs, /const egoPrimaryTrackOrder = \[/);
+  assert.match(scriptJs, /const egoSecondaryTrackOrder = \[/);
+  assert.match(scriptJs, /egoPrimaryTrackOrder\.map/);
+  assert.doesNotMatch(scriptJs, /egoSamples\.slice\(11,\s*29\)/);
+});
+
+test("EGO hover direction is split by the marquee center", () => {
+  const hoverBody = scriptFunctionBody("updateEgoHoverVelocity");
+
+  assert.match(hoverBody, /centerX\s*=\s*rect\.left\s*\+\s*rect\.width\s*\/\s*2/);
+  assert.match(hoverBody, /distance\s*=\s*clientX\s*-\s*centerX/);
+  assert.doesNotMatch(hoverBody, /pointerAnchorX/);
+  assert.match(scriptJs, /pointerenter[\s\S]*updateEgoHoverVelocity\(event\.clientX\)/);
 });
 
 test("image marquees use measured loop distances instead of percentage offsets", () => {

@@ -1142,9 +1142,13 @@ html[lang="zh-CN"] .proof-image img {
   opacity: 1;
 }
 
+.contact-section .eyebrow {
+  color: var(--green);
+}
+
 .contact-inner h2 {
   max-width: 760px;
-  color: var(--green);
+  color: var(--text);
 }
 
 .contact-inner p {

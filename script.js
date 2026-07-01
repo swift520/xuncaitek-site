@@ -42,13 +42,13 @@ const translations = {
     cap1Title: "场景资源链接",
     cap1Text: "覆盖福建、广东、浙江等制造业重点区域。",
     cap2Title: "多模态采集",
-    cap2Text: "支持第一视角、多机位视频、动捕、触觉手套、VR/AR 设备。",
+    cap2Text: "支持第一视角、多机位视频、动捕、数据手套、VR/AR 设备。",
     cap3Title: "交付格式适配",
     cap3Text: "支持 RLDS、LeRobot、HDF5、Parquet 与定制 Schema。",
     pipelineEyebrow: "采集流程",
     pipelineTitle: "五步形成可训练数据集。",
     step1Title: "场景链接",
-    step1Text: "各行业、家庭、商超、餐饮、物流等真实任务场景标准化。",
+    step1Text: "工厂、家庭、商超、餐饮、物流等真实任务场景标准化。",
     step2Title: "穿戴采集",
     step2Text: "第一视角、多机位视频、动捕、数据手套、VR/AR 设备。",
     step3Title: "时间同步",
@@ -159,7 +159,7 @@ const translations = {
     cap1Title: "Scene sourcing",
     cap1Text: "Coverage across manufacturing hubs including Fujian, Guangdong and Zhejiang.",
     cap2Title: "Multimodal capture",
-    cap2Text: "Supports first-person views, multi-camera video, motion capture, tactile gloves and VR/AR equipment.",
+    cap2Text: "Supports first-person views, multi-camera video, motion capture, data gloves and VR/AR equipment.",
     cap3Title: "Format adaptation",
     cap3Text: "Support for RLDS, LeRobot, HDF5, Parquet and custom schemas.",
     pipelineEyebrow: "How It Works",
@@ -261,7 +261,6 @@ const egoMotion = {
   lastInputTime: 0,
   pointerInside: false,
   touchActive: false,
-  pointerAnchorX: 0,
   lastPointerX: 0,
   lastPointerTime: 0,
 };
@@ -355,6 +354,18 @@ const egoSamples = [
   { src: "assets/ego/vegetables-03.webp", category: "vegetables", index: "03" },
   { src: "assets/ego/vegetables-04.webp", category: "vegetables", index: "04" },
   { src: "assets/ego/vegetables-05.webp", category: "vegetables", index: "05" },
+];
+
+const egoPrimaryTrackOrder = [
+  11, 34, 22, 49, 26, 19, 0, 42, 46,
+  12, 35, 23, 50, 27, 20, 3, 43, 47,
+  13, 36, 24, 51, 28, 21, 5, 8, 44,
+];
+
+const egoSecondaryTrackOrder = [
+  29, 14, 37, 25, 52, 1, 6, 9, 45,
+  30, 15, 38, 53, 2, 7, 10, 31, 16,
+  39, 4, 32, 17, 40, 33, 18, 41, 48,
 ];
 
 const thirdPersonSamples = [
@@ -561,9 +572,10 @@ function renderEgoMarquee() {
     return;
   }
 
-  const firstTrack = egoSamples.slice(11, 29);
-  const secondTrack = [...egoSamples.slice(29, 45), ...egoSamples.slice(0, 6)];
-  const tracks = [firstTrack, secondTrack];
+  const tracks = [
+    egoPrimaryTrackOrder.map((sampleIndex) => egoSamples[sampleIndex]).filter(Boolean),
+    egoSecondaryTrackOrder.map((sampleIndex) => egoSamples[sampleIndex]).filter(Boolean),
+  ];
 
   egoMarqueeTracks.forEach((track, index) => {
     track.textContent = "";
@@ -647,8 +659,9 @@ function stepEgoMotion(timestamp) {
   }
 
   const manualActive =
-    Math.abs(egoMotion.manualVelocity) > 8 &&
-    (egoMotion.pointerInside || egoMotion.touchActive || timeSinceInput < 650);
+    egoMotion.pointerInside ||
+    egoMotion.touchActive ||
+    (Math.abs(egoMotion.manualVelocity) > 8 && timeSinceInput < 650);
 
   egoMarqueeTracks.forEach((track) => {
     const loopWidth = getTrackLoopDistance(track);
@@ -679,8 +692,9 @@ function updateEgoPointerVelocity(clientX) {
 
 function updateEgoHoverVelocity(clientX) {
   const rect = egoMarquee.getBoundingClientRect();
-  const range = Math.max(rect.width * 0.36, 90);
-  const distance = clientX - egoMotion.pointerAnchorX;
+  const centerX = rect.left + rect.width / 2;
+  const range = Math.max(rect.width * 0.5, 90);
+  const distance = clientX - centerX;
   const normalized = clamp(distance / range, -1, 1);
   const eased = Math.sign(normalized) * Math.pow(Math.abs(normalized), 1.22);
 
@@ -698,9 +712,9 @@ function initializeEgoMotion() {
   egoMarquee.addEventListener("pointerenter", (event) => {
     if (event.pointerType === "mouse" || event.pointerType === "pen") {
       egoMotion.pointerInside = true;
-      egoMotion.pointerAnchorX = event.clientX;
       egoMotion.lastPointerX = event.clientX;
       egoMotion.lastPointerTime = performance.now();
+      updateEgoHoverVelocity(event.clientX);
     }
   });
 
@@ -721,7 +735,6 @@ function initializeEgoMotion() {
     if (event.pointerType === "mouse" || event.pointerType === "pen") {
       egoMotion.pointerInside = false;
       egoMotion.manualVelocity = 0;
-      egoMotion.pointerAnchorX = 0;
       egoMotion.lastPointerTime = 0;
     }
   });
