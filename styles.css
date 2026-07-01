@@ -613,6 +613,7 @@ html[lang="zh-CN"] .product-concept-media img {
 }
 
 .scene-marquee-track {
+  --scene-loop-distance: 50%;
   display: flex;
   width: max-content;
   gap: 0.9rem;
@@ -1143,6 +1144,7 @@ html[lang="zh-CN"] .proof-image img {
 
 .contact-inner h2 {
   max-width: 760px;
+  color: var(--green);
 }
 
 .contact-inner p {
@@ -1178,21 +1180,21 @@ html[lang="zh-CN"] .proof-image img {
 
 @keyframes scene-scroll-left {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(calc(var(--scene-loop-distance) * -1), 0, 0);
   }
 }
 
 @keyframes scene-scroll-right {
   from {
-    transform: translateX(-50%);
+    transform: translate3d(calc(var(--scene-loop-distance) * -1), 0, 0);
   }
 
   to {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 

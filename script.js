@@ -14,8 +14,8 @@ const translations = {
       "全行业实景数采，EGO、UMI、多模态同步与精细标注，助力无本体数据规模化采集。",
     ctaTalk: "预约项目沟通",
     ctaFlow: "查看采集流程",
-    metricFactories: "100+",
-    metricFactoriesLabel: "已合作/可拓展场景",
+    metricScenes: "100+",
+    metricScenesLabel: "已合作/可拓展场景",
     metricStations: "2000+",
     metricStationsLabel: "可复用采集工位",
     metricHours: "50,000h+",
@@ -30,7 +30,7 @@ const translations = {
     problemBody:
       "模型能力快速提升，但真实操作中的动作轨迹、视觉观测、手物关系、任务语义和时间同步数据仍极度稀缺。无本体采集为机器人提供规模化的人类操作先验。",
     problemCard1Title: "低成本扩展",
-    problemCard1Text: "无需大量昂贵机器人本体，可在工厂、家庭、商超、物流场景并行部署。",
+    problemCard1Text: "无需大量昂贵机器人本体，可在各行业真实场景中并行部署。",
     problemCard2Title: "真实长尾场景",
     problemCard2Text: "采集真实人类操作与环境交互，补足仿真合成数据的 Sim2Real Gap。",
     problemCard3Title: "可训练资产",
@@ -48,7 +48,7 @@ const translations = {
     pipelineEyebrow: "采集流程",
     pipelineTitle: "五步形成可训练数据集。",
     step1Title: "场景链接",
-    step1Text: "工厂、家庭、商超、餐饮、物流等真实任务场景标准化。",
+    step1Text: "各行业、家庭、商超、餐饮、物流等真实任务场景标准化。",
     step2Title: "穿戴采集",
     step2Text: "第一视角、多机位视频、动捕、数据手套、VR/AR 设备。",
     step3Title: "时间同步",
@@ -60,7 +60,7 @@ const translations = {
     scenesEyebrow: "场景网络",
     scenesTitle: "从标准产线到复杂手工艺作坊，连接真实机器人任务。",
     scenesBody:
-      "公司拥有稳定的工厂合作渠道和项目协同能力，可按客户需求快速链接和复制采集场景。",
+      "公司拥有稳定的各行业场景合作渠道和项目协同能力，可按客户需求快速链接和复制采集场景。",
     scene1Title: "工业制造",
     scene1Text: "电子装配、线束插拔、分拣、包装、焊接、质检、柔性物体操作。",
     scene2Title: "工艺与长尾任务",
@@ -101,10 +101,10 @@ const translations = {
     deliveryBody:
       "数据字段覆盖 RGB 视频、帧 ID、相机参数、手部轨迹、关键点、动作阶段、接触状态、物体类别、自然语言指令、异常片段与质检记录。",
     proofEyebrow: "核心优势",
-    proofTitle: "集成资源、项目管理与数据工程三大能力，确保数据稳定交付。",
+    proofTitle: "集成场景资源、项目管理与数据工程三大能力，确保数据稳定交付。",
     proof1: "场景多样：覆盖标准产线、柔性制造、服务空间与复杂手工艺。",
     proof2: "地域广泛：深耕福建，并延展至广东、浙江等制造业聚集省份。",
-    proof3: "经验完整：具备工厂实景 Ego 数据采集全流程服务经验。",
+    proof3: "经验完整：具备各行业实景 Ego 数据采集全流程服务经验。",
     contactEyebrow: "合作共建",
     contactTitle: "把真实场景转化为机器人可学习的数据基础设施。",
     contactBody:
@@ -128,8 +128,8 @@ const translations = {
       "All-industry real-world data collection with EGO, UMI, multimodal synchronization and fine annotation to support scalable body-free data collection.",
     ctaTalk: "Discuss a Project",
     ctaFlow: "View Workflow",
-    metricFactories: "100+",
-    metricFactoriesLabel: "Partnered or expandable scenes",
+    metricScenes: "100+",
+    metricScenesLabel: "Partnered or expandable scenes",
     metricStations: "2000+",
     metricStationsLabel: "Reusable collection workstations",
     metricHours: "50,000h+",
@@ -145,7 +145,7 @@ const translations = {
       "Model capability is moving fast, but action trajectories, visual observations, hand-object relations, task semantics and synchronized real-world data remain scarce. Body-free collection turns human operation into scalable robot priors.",
     problemCard1Title: "Cost-efficient scaling",
     problemCard1Text:
-      "Deploy collection projects across factories, homes, retail and logistics without relying on large fleets of expensive robot bodies.",
+      "Deploy collection projects across industries, homes, retail and logistics without relying on large fleets of expensive robot bodies.",
     problemCard2Title: "Real long-tail scenes",
     problemCard2Text:
       "Capture human operation and environmental interaction in the real world to reduce the Sim2Real gap left by synthetic data.",
@@ -165,7 +165,7 @@ const translations = {
     pipelineEyebrow: "How It Works",
     pipelineTitle: "Five steps from scene to trainable dataset.",
     step1Title: "Scene linking",
-    step1Text: "Standardize real task environments across factories, homes, retail, food service and logistics.",
+    step1Text: "Standardize real task environments across industries, homes, retail, food service and logistics.",
     step2Title: "Wearable capture",
     step2Text: "First-person views, multi-camera video, motion capture, data gloves and VR/AR equipment.",
     step3Title: "Time sync",
@@ -177,7 +177,7 @@ const translations = {
     scenesEyebrow: "Scene Network",
     scenesTitle: "From standard production lines to complex craft workshops.",
     scenesBody:
-      "With stable factory channels and project coordination capability, the company can rapidly connect and replicate collection scenes based on customer requirements.",
+      "With stable cross-industry scene channels and project coordination capability, the company can rapidly connect and replicate collection scenes based on customer requirements.",
     scene1Title: "Industrial manufacturing",
     scene1Text:
       "Electronics assembly, wire harness insertion, sorting, packaging, welding, inspection and deformable object operations.",
@@ -226,7 +226,7 @@ const translations = {
     proofTitle: "Integrated scene resources, project management and data engineering ensure stable data delivery.",
     proof1: "Diverse scenes: standard production lines, flexible manufacturing, service spaces and complex craft workflows.",
     proof2: "Wide regional reach: rooted in Fujian and extended to manufacturing clusters in Guangdong and Zhejiang.",
-    proof3: "Complete experience: end-to-end service capability for real-world factory Ego data collection.",
+    proof3: "Complete experience: end-to-end service capability for all-industry real-world Ego data collection.",
     contactEyebrow: "Co-build",
     contactTitle: "Turn real scenes into data infrastructure robots can learn from.",
     contactBody:
@@ -241,6 +241,7 @@ const buttons = document.querySelectorAll(".lang-button");
 const translatable = document.querySelectorAll("[data-i18n]");
 const metaDescription = document.querySelector('meta[name="description"]');
 const languageStorageKey = "xuncaitek-language";
+const brandHomeLink = document.querySelector("[data-scroll-top]");
 const contactEmailButton = document.querySelector("[data-contact-email]");
 const contactEmailFeedback = document.querySelector(".contact-email-feedback");
 const sceneMarqueeTracks = document.querySelectorAll("[data-scene-marquee]");
@@ -250,6 +251,7 @@ const thirdPersonMosaic = document.querySelector("[data-third-person-mosaic]");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
 let egoMotionInitialized = false;
 let thirdPersonResizeFrame = null;
+const trackLoopDistances = new WeakMap();
 
 const egoMotion = {
   offsets: new WeakMap(),
@@ -419,8 +421,69 @@ buttons.forEach((button) => {
   button.addEventListener("click", () => setLanguage(button.dataset.lang));
 });
 
+if (brandHomeLink) {
+  brandHomeLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+
+    if (window.location.hash) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  });
+}
+
 function getEgoCategory(id) {
   return egoCategories.find((category) => category.id === id) || egoCategories[0];
+}
+
+function measureTrackLoopDistance(track) {
+  const children = [...track.children];
+  const midpoint = Math.floor(children.length / 2);
+  const firstLoopNode = children[0];
+  const secondLoopNode = children[midpoint];
+
+  if (!firstLoopNode || !secondLoopNode) {
+    return 0;
+  }
+
+  const measuredDistance = secondLoopNode.getBoundingClientRect().left - firstLoopNode.getBoundingClientRect().left;
+  if (Number.isFinite(measuredDistance) && measuredDistance > 0) {
+    return measuredDistance;
+  }
+
+  const style = window.getComputedStyle(track);
+  const gap = parseFloat(style.columnGap || style.gap) || 0;
+  return children
+    .slice(0, midpoint)
+    .reduce((total, child) => total + child.getBoundingClientRect().width + gap, 0);
+}
+
+function refreshTrackLoopDistance(track) {
+  const distance = measureTrackLoopDistance(track);
+  if (distance > 0) {
+    trackLoopDistances.set(track, distance);
+  }
+  return distance;
+}
+
+function getTrackLoopDistance(track) {
+  return trackLoopDistances.get(track) || refreshTrackLoopDistance(track);
+}
+
+function setSceneLoopDistance(track) {
+  const distance = refreshTrackLoopDistance(track);
+  if (distance > 0) {
+    track.style.setProperty("--scene-loop-distance", `${distance}px`);
+  }
+}
+
+function setSceneLoopDistances() {
+  sceneMarqueeTracks.forEach(setSceneLoopDistance);
 }
 
 function createSceneImageCard(sample, index) {
@@ -453,7 +516,10 @@ function renderSceneMarquee() {
       const sceneIndex = sceneSamples.indexOf(sample);
       track.appendChild(createSceneImageCard(sample, sceneIndex >= 0 ? sceneIndex : sampleIndex));
     });
+    setSceneLoopDistance(track);
   });
+
+  requestAnimationFrame(setSceneLoopDistances);
 }
 
 function renderSceneModule() {
@@ -506,6 +572,8 @@ function renderEgoMarquee() {
     });
   });
 
+  resetEgoTrackOffsets();
+  requestAnimationFrame(refreshEgoLoopDistances);
   initializeEgoMotion();
 }
 
@@ -530,6 +598,27 @@ function wrapEgoOffset(offset, loopWidth) {
     wrapped += loopWidth;
   }
   return wrapped;
+}
+
+function resetEgoTrackOffsets() {
+  egoMarqueeTracks.forEach((track) => {
+    const loopWidth = refreshTrackLoopDistance(track);
+    const initialOffset = track.dataset.egoMarquee === "secondary" ? -loopWidth : 0;
+
+    egoMotion.offsets.set(track, initialOffset);
+    track.style.transform = `translate3d(${initialOffset}px, 0, 0)`;
+  });
+}
+
+function refreshEgoLoopDistances() {
+  egoMarqueeTracks.forEach((track) => {
+    const loopWidth = refreshTrackLoopDistance(track);
+    const currentOffset = egoMotion.offsets.get(track) || 0;
+    const nextOffset = wrapEgoOffset(currentOffset, loopWidth);
+
+    egoMotion.offsets.set(track, nextOffset);
+    track.style.transform = `translate3d(${nextOffset}px, 0, 0)`;
+  });
 }
 
 function setEgoManualVelocity(value) {
@@ -562,7 +651,7 @@ function stepEgoMotion(timestamp) {
     (egoMotion.pointerInside || egoMotion.touchActive || timeSinceInput < 650);
 
   egoMarqueeTracks.forEach((track) => {
-    const loopWidth = track.scrollWidth / 2;
+    const loopWidth = getTrackLoopDistance(track);
     const defaultDirection = track.dataset.egoMarquee === "secondary" ? 1 : -1;
     const currentOffset = egoMotion.offsets.get(track) || 0;
     const velocity = manualActive ? egoMotion.manualVelocity : defaultDirection * baseSpeed;
@@ -803,15 +892,18 @@ if (contactEmailButton) {
 }
 
 window.addEventListener("resize", () => {
-  if (!thirdPersonMosaic) {
-    return;
-  }
-
   if (thirdPersonResizeFrame) {
     window.cancelAnimationFrame(thirdPersonResizeFrame);
   }
 
   thirdPersonResizeFrame = window.requestAnimationFrame(() => {
+    setSceneLoopDistances();
+    refreshEgoLoopDistances();
+
+    if (!thirdPersonMosaic) {
+      return;
+    }
+
     const nextColumnCount = getThirdPersonColumnCount();
     if (thirdPersonMosaic.dataset.columnCount !== String(nextColumnCount)) {
       renderThirdPersonModule();
