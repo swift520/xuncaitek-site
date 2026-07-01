@@ -938,22 +938,90 @@ function buildDeliveryRobotFrame() {
     hot: "#ffb45e",
     fill: "rgba(99, 240, 181, 0.07)",
   };
+  const robotGreen = "#63f0b5";
+  const robotGreenSoft = "rgba(99, 240, 181, 0.3)";
+  const skeletonPalette = {
+    center: robotGreen,
+    left: robotGreen,
+    right: robotGreen,
+    leftSoft: robotGreenSoft,
+    rightSoft: robotGreenSoft,
+    centerSoft: robotGreenSoft,
+  };
+  const radialDexterousHandPalette = {
+    bone: robotGreen,
+    joint: robotGreen,
+    halo: "rgba(99, 240, 181, 0.18)",
+  };
+  const fullBodyJoints = ["neck", "shoulder", "elbow", "wrist", "spine", "waist", "hip", "knee", "ankle", "toe"];
+  const supportArmOpacity = 0.68;
+  const activeArmElbowSign = -1;
+  const supportArmElbowSign = 1;
+  const goldenRatio = 1.618;
+  const compositionShiftX = -56;
+  const shiftCompositionX = (value) => value + compositionShiftX;
+  const centerX = shiftCompositionX(224);
+  const goldenBodyTopY = 118;
+  const goldenBodyFootY = 550;
+  const goldenBodyHeight = goldenBodyFootY - goldenBodyTopY;
+  const goldenUpperBodyHeight = Math.round(goldenBodyHeight / (goldenRatio + 1));
+  const goldenLowerBodyHeight = goldenBodyHeight - goldenUpperBodyHeight;
+  const goldenHipY = goldenBodyTopY + goldenUpperBodyHeight;
+  const goldenBodyRatio = Number((goldenLowerBodyHeight / goldenUpperBodyHeight).toFixed(3));
+  const headJointRadius = Math.round(goldenUpperBodyHeight / Math.pow(goldenRatio, 7));
+  const goldenShoulderY = goldenBodyTopY + Math.round(goldenUpperBodyHeight / (goldenRatio + 1));
+  const goldenShoulderHalfWidth = Math.round(goldenUpperBodyHeight / (goldenRatio * 2.5));
+  const goldenTableY = goldenHipY + Math.round((goldenBodyFootY - goldenHipY) / Math.pow(goldenRatio, 3));
+  const legFootY = goldenBodyFootY - Math.round(goldenLowerBodyHeight / Math.pow(goldenRatio, 3));
+  const legLength = legFootY - (goldenHipY + 6);
+  const thighLength = Math.round((legLength * goldenRatio) / (goldenRatio + 1));
+  const armReachLength = goldenUpperBodyHeight;
+  const armUpperLength = Math.round((armReachLength * goldenRatio) / (goldenRatio + 1));
+  const armForearmLength = armReachLength - armUpperLength;
+  const radialHandReachLength = Math.round(armForearmLength / goldenRatio);
+  const radialHandScale = Number((radialHandReachLength / 102).toFixed(2));
+  const scaleHand = (value) => value * radialHandScale;
+  const footLength = Math.round(radialHandReachLength / goldenRatio);
+  const dexterousHandJointNames = [
+    "wrist",
+    "thumbCmc",
+    "thumbMcp",
+    "thumbIp",
+    "thumbTip",
+    "indexMcp",
+    "indexPip",
+    "indexDip",
+    "indexTip",
+    "middleMcp",
+    "middlePip",
+    "middleDip",
+    "middleTip",
+    "ringMcp",
+    "ringPip",
+    "ringDip",
+    "ringTip",
+    "pinkyMcp",
+    "pinkyPip",
+    "pinkyDip",
+    "pinkyTip",
+  ];
   const svg = createDeliverySvgElement("svg", {
     class: "delivery-robot-svg",
     viewBox: "0 0 620 620",
     role: "img",
     "aria-labelledby": "delivery-robot-title delivery-robot-desc",
   });
+
   svg.appendChild(
     createDeliverySvgElement("title", {
       id: "delivery-robot-title",
-      text: "FIG 02 — HUMANOID UPPER BODY MK-002",
+      text: "Delivery robot grasping a desktop object",
     }),
   );
   svg.appendChild(
     createDeliverySvgElement("desc", {
       id: "delivery-robot-desc",
-      text: "A line-art robot animation showing data blocks moving through a delivery QA cycle.",
+      text: "Seed-green joint-skeleton robot with dexterous hands holding a desktop object from the palm anchor.",
     }),
   );
 
@@ -969,142 +1037,179 @@ function buildDeliveryRobotFrame() {
     );
   }
   drawDeliveryCornerFrame(staticLayer, 50, 58, 520, 498, 22, palette.line);
-  staticLayer.appendChild(
-    createDeliverySvgElement("text", {
-      x: 58,
-      y: 48,
-      fill: palette.hot,
-      "font-size": 11,
-      "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-      "letter-spacing": ".12em",
-      text: "FIG 02 — HUMANOID UPPER BODY MK-002",
-    }),
-  );
-  staticLayer.appendChild(
-    createDeliverySvgElement("text", {
-      x: 562,
-      y: 48,
-      fill: palette.line,
-      opacity: 0.66,
-      "text-anchor": "end",
-      "font-size": 10,
-      "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-      "letter-spacing": ".1em",
-      text: "DATASET QA CYCLE",
-    }),
-  );
 
-  const tableY = 454;
+  const tableY = goldenTableY;
+  const tableBottomY = tableY + 82;
+  const tableTopLeftX = shiftCompositionX(360);
+  const tableTopRightX = shiftCompositionX(552);
+  const tableBottomRightX = shiftCompositionX(574);
+  const tableBottomLeftX = shiftCompositionX(338);
+  const tableLabelX = shiftCompositionX(468);
   staticLayer.appendChild(
     createDeliverySvgElement("path", {
-      d: `M94 ${tableY} L526 ${tableY} L554 492 L66 492 Z`,
+      d: `M${tableTopLeftX} ${tableY} L${tableTopRightX} ${tableY} L${tableBottomRightX} ${tableBottomY} L${tableBottomLeftX} ${tableBottomY} Z`,
       stroke: palette.line,
       "stroke-width": 1.5,
       fill: palette.fill,
     }),
   );
   staticLayer.appendChild(
-    createDeliverySvgElement("line", { x1: 66, y1: 492, x2: 66, y2: 526, stroke: palette.soft, "stroke-width": 1.3 }),
+    createDeliverySvgElement("line", { x1: tableBottomLeftX, y1: tableBottomY, x2: tableBottomLeftX, y2: 525, stroke: palette.soft, "stroke-width": 1.2 }),
   );
   staticLayer.appendChild(
-    createDeliverySvgElement("line", { x1: 554, y1: 492, x2: 554, y2: 526, stroke: palette.soft, "stroke-width": 1.3 }),
+    createDeliverySvgElement("line", { x1: tableBottomRightX, y1: tableBottomY, x2: tableBottomRightX, y2: 525, stroke: palette.soft, "stroke-width": 1.2 }),
+  );
+  staticLayer.appendChild(
+    createDeliverySvgElement("text", {
+      x: tableLabelX,
+      y: tableY + 31,
+      fill: palette.line,
+      opacity: 0.62,
+      "text-anchor": "middle",
+      "font-size": 9,
+      "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+      "letter-spacing": ".1em",
+      text: "DESKTOP OBJECT",
+    }),
   );
 
-  const shoulderLeft = { x: 248, y: 212 };
-  const shoulderRight = { x: 372, y: 212 };
-  const torso = createDeliverySvgGroup({ class: "delivery-robot-torso" });
-  const torsoLine = (x1, y1, x2, y2, width = 2) => {
-    torso.appendChild(createDeliverySvgElement("line", { x1, y1, x2, y2, stroke: palette.line, "stroke-width": width }));
+  const body = {
+    head: { x: centerX, y: goldenBodyTopY },
+    neck: { x: centerX, y: goldenShoulderY - Math.round((goldenShoulderY - goldenBodyTopY) / (goldenRatio + 1)) },
+    shoulderCenter: { x: centerX, y: goldenShoulderY },
+    spine: { x: centerX, y: goldenShoulderY + Math.round((goldenHipY - goldenShoulderY) / (goldenRatio + 1)) },
+    waist: { x: centerX, y: goldenShoulderY + Math.round((goldenHipY - goldenShoulderY) / goldenRatio) },
+    hip: { x: centerX, y: goldenHipY },
+    pelvis: { x: centerX, y: goldenHipY },
+    rearShoulder: { x: centerX - goldenShoulderHalfWidth, y: goldenShoulderY },
+    shoulder: { x: centerX + goldenShoulderHalfWidth, y: goldenShoulderY },
+    rearElbow: { x: centerX - goldenShoulderHalfWidth - Math.round(armUpperLength / goldenRatio), y: goldenShoulderY + Math.round(armUpperLength / goldenRatio) },
+    rearWrist: { x: centerX - goldenShoulderHalfWidth - Math.round(armReachLength / goldenRatio), y: goldenShoulderY + Math.round(armReachLength / goldenRatio) },
+    elbow: { x: centerX + goldenShoulderHalfWidth + Math.round(armUpperLength / goldenRatio), y: goldenShoulderY + Math.round(armUpperLength / goldenRatio) },
+    wrist: { x: centerX + goldenShoulderHalfWidth + Math.round(armReachLength / goldenRatio), y: goldenShoulderY + Math.round(armReachLength / goldenRatio) },
+    leftHip: { x: centerX - 28, y: goldenHipY + 6 },
+    leftKnee: { x: centerX - 34, y: goldenHipY + 6 + thighLength },
+    leftAnkle: { x: centerX - 38, y: legFootY },
+    leftToe: { x: centerX - 38 + footLength, y: legFootY + 1 },
+    rightHip: { x: centerX + 28, y: goldenHipY + 6 },
+    knee: { x: centerX + 34, y: goldenHipY + 6 + thighLength },
+    ankle: { x: centerX + 38, y: legFootY },
+    toe: { x: centerX + 38 + footLength, y: legFootY + 1 },
   };
-  torsoLine(288, tableY, 332, tableY, 1.6);
-  torsoLine(310, 404, 288, tableY, 2);
-  torsoLine(310, 404, 332, tableY, 2);
-  torsoLine(310, 212, 310, 404, 2.4);
-  torsoLine(shoulderLeft.x, shoulderLeft.y, shoulderRight.x, shoulderRight.y, 2.4);
-  [shoulderLeft, shoulderRight].forEach((shoulder) => {
-    torso.appendChild(
-      createDeliverySvgElement("circle", {
-        cx: shoulder.x,
-        cy: shoulder.y,
-        r: 5,
-        stroke: palette.line,
-        "stroke-width": 1.5,
-        fill: "none",
-      }),
-    );
-    torso.appendChild(
-      createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: shoulder.x, cy: shoulder.y, r: 2, fill: palette.hot }),
-    );
-  });
-  torsoLine(310, 212, 310, 196, 2);
-  torso.appendChild(
-    createDeliverySvgElement("path", { d: "M310 182 L318 199 L302 199 Z", stroke: palette.line, "stroke-width": 1.5, fill: "none" }),
-  );
-  torso.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: 310, cy: 194, r: 2, fill: palette.hot }));
-  staticLayer.appendChild(torso);
+  const shoulder = body.shoulder;
 
-  [
-    { x: 176, label: "CAPTURE" },
-    { x: 310, label: "QA" },
-    { x: 444, label: "PACK" },
-  ].forEach((zone) => {
-    staticLayer.appendChild(
-      createDeliverySvgElement("rect", {
-        x: zone.x - 24,
-        y: tableY - 7,
-        width: 48,
-        height: 10,
-        stroke: palette.soft,
-        "stroke-width": 1,
-        "stroke-dasharray": "3 4",
-        fill: "none",
+  function drawSkeletonSegment(parent, start, end, color, width = 3.4, className = "delivery-robot-skeleton") {
+    parent.appendChild(
+      createDeliverySvgElement("line", {
+        class: className,
+        x1: start.x,
+        y1: start.y,
+        x2: end.x,
+        y2: end.y,
+        stroke: color,
+        "stroke-width": width,
+        "stroke-linecap": "round",
       }),
     );
+  }
+
+  function drawSkeletonJoint(parent, point, color, radius = 6, className = "delivery-robot-pulse") {
+    parent.appendChild(
+      createDeliverySvgElement("circle", {
+        cx: point.x,
+        cy: point.y,
+        r: radius + 3,
+        fill: color,
+        opacity: 0.12,
+      }),
+    );
+    parent.appendChild(
+      createDeliverySvgElement("circle", {
+        class: className,
+        cx: point.x,
+        cy: point.y,
+        r: radius,
+        fill: color,
+      }),
+    );
+  }
+
+  function drawSkeletonChain(parent, points, color, className, width = 3.8, radius = 6) {
+    points.slice(0, -1).forEach((point, index) => {
+      drawSkeletonSegment(parent, point, points[index + 1], color, width, className);
+    });
+    points.forEach((point) => drawSkeletonJoint(parent, point, color, radius));
+  }
+
+  const skeleton = createDeliverySvgGroup({ class: "delivery-robot-skeleton", "data-golden-ratio": goldenBodyRatio });
+  drawSkeletonSegment(skeleton, body.head, body.neck, skeletonPalette.center, 3.7, "delivery-robot-skeleton");
+  drawSkeletonJoint(skeleton, body.head, skeletonPalette.center, headJointRadius);
+  drawSkeletonChain(skeleton, [body.neck, body.shoulderCenter, body.spine, body.waist, body.hip], skeletonPalette.center, "delivery-robot-skeleton", 3.7, 6.2);
+  drawSkeletonChain(skeleton, [body.shoulderCenter, body.rearShoulder], skeletonPalette.left, "delivery-robot-limb-left", 4.2, 6);
+  drawSkeletonChain(skeleton, [body.shoulderCenter, body.shoulder], skeletonPalette.right, "delivery-robot-limb-right", 4.2, 6);
+  drawSkeletonChain(skeleton, [body.hip, body.leftHip, body.leftKnee, body.leftAnkle, body.leftToe], skeletonPalette.left, "delivery-robot-limb-left", 4.1, 6);
+  drawSkeletonChain(skeleton, [body.hip, body.rightHip, body.knee, body.ankle, body.toe], skeletonPalette.right, "delivery-robot-limb-right", 4.1, 6);
+  staticLayer.appendChild(skeleton);
+
+  fullBodyJoints.forEach((name, index) => {
+    const point = body[name];
+    if (!point) {
+      return;
+    }
     staticLayer.appendChild(
       createDeliverySvgElement("text", {
-        x: zone.x,
-        y: tableY + 27,
+        x: point.x - 26,
+        y: point.y - 11 - (index % 2) * 5,
         fill: palette.line,
-        opacity: 0.64,
-        "text-anchor": "middle",
-        "font-size": 9,
+        opacity: 0.42,
+        "font-size": 7.8,
         "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-        "letter-spacing": ".1em",
-        text: zone.label,
+        "letter-spacing": ".08em",
+        text: name.toUpperCase(),
       }),
     );
   });
+
   svg.appendChild(staticLayer);
 
   const dynamicLayer = createDeliverySvgGroup({ class: "delivery-robot-dynamic" });
   svg.appendChild(dynamicLayer);
 
-  const block = { width: 30, height: 22 };
-  const travelY = 318;
-  const graspY = tableY - block.height;
-  const cycleMs = 6800;
-  const leftProgram = createDeliveryMotionProgram(176, 310, shoulderLeft);
-  const rightProgram = createDeliveryMotionProgram(444, 310, shoulderRight);
+  const object = { width: 34, height: 26 };
+  const objectPick = { x: shiftCompositionX(386), y: tableY - object.height };
+  const objectPlace = { ...objectPick };
+  const cycleMs = 7200;
+  const activeArmRestTarget = { x: shiftCompositionX(346), y: 300 };
+  const armProgram = {
+    pickX: objectPick.x,
+    placeX: objectPlace.x,
+    shoulder,
+    keys: [
+      { progress: 0, target: activeArmRestTarget, grip: 0 },
+      { progress: 0.16, target: { x: shiftCompositionX(366), y: tableY - 62 }, grip: 0 },
+      { progress: 0.28, target: { x: objectPick.x, y: objectPick.y - 8 }, grip: 0 },
+      { progress: 0.4, target: { x: objectPick.x, y: objectPick.y - 8 }, grip: 1 },
+      { progress: 0.55, target: { x: objectPick.x, y: tableY - 66 }, grip: 1 },
+      { progress: 0.7, target: { x: objectPlace.x, y: tableY - 64 }, grip: 1 },
+      { progress: 0.82, target: { x: objectPlace.x, y: objectPlace.y - 8 }, grip: 1 },
+      { progress: 0.9, target: { x: objectPlace.x, y: objectPlace.y - 8 }, grip: 0 },
+      { progress: 1, target: activeArmRestTarget, grip: 0 },
+    ],
+  };
+  const supportArmProgram = {
+    shoulder: body.rearShoulder,
+    keys: [
+      { progress: 0, target: { x: shiftCompositionX(276), y: 292 }, grip: 0.14 },
+      { progress: 0.16, target: { x: objectPick.x - 76, y: tableY - 58 }, grip: 0.22 },
+      { progress: 0.32, target: { x: objectPick.x - 82, y: objectPick.y - 8 }, grip: 0.48 },
+      { progress: 0.55, target: { x: shiftCompositionX(318), y: tableY - 58 }, grip: 0.5 },
+      { progress: 0.78, target: { x: objectPlace.x - 98, y: objectPlace.y - 12 }, grip: 0.42 },
+      { progress: 1, target: { x: shiftCompositionX(276), y: 292 }, grip: 0.14 },
+    ],
+  };
 
-  function createDeliveryMotionProgram(pickX, placeX, shoulder) {
-    const rest = { x: (pickX + placeX) / 2, y: 294 };
-    return {
-      pickX,
-      placeX,
-      shoulder,
-      keys: [
-        { progress: 0, target: rest, grip: 0 },
-        { progress: 0.12, target: { x: pickX, y: travelY }, grip: 0 },
-        { progress: 0.22, target: { x: pickX, y: graspY }, grip: 0 },
-        { progress: 0.3, target: { x: pickX, y: graspY }, grip: 1 },
-        { progress: 0.43, target: { x: pickX, y: travelY }, grip: 1 },
-        { progress: 0.56, target: { x: placeX, y: travelY }, grip: 1 },
-        { progress: 0.66, target: { x: placeX, y: graspY }, grip: 1 },
-        { progress: 0.74, target: { x: placeX, y: graspY }, grip: 0 },
-        { progress: 0.84, target: { x: placeX, y: travelY }, grip: 0 },
-        { progress: 1, target: rest, grip: 0 },
-      ],
-    };
+  function drawArmJoint(parent, point, radius = 5) {
+    drawSkeletonJoint(parent, point, skeletonPalette.center, radius);
   }
 
   function smoothMotion(value) {
@@ -1129,106 +1234,208 @@ function buildDeliveryRobotFrame() {
     return { ...keys[0].target, grip: keys[0].grip };
   }
 
-  function drawJoint(x, y, radius) {
-    const joint = createDeliverySvgGroup();
-    joint.appendChild(createDeliverySvgElement("circle", { cx: x, cy: y, r: radius, stroke: palette.line, "stroke-width": 1.4, fill: "none" }));
-    joint.appendChild(createDeliverySvgElement("circle", { cx: x, cy: y, r: radius * 0.52, stroke: palette.line, "stroke-width": 1, fill: "none" }));
-    joint.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: x, cy: y, r: radius * 0.18, fill: palette.hot }));
-    return joint;
+  function drawHandJoint(parent, point, color, name, radius = 1.9) {
+    parent.appendChild(
+      createDeliverySvgElement("circle", {
+        class: "delivery-robot-hand-joint-halo",
+        cx: point.x,
+        cy: point.y,
+        r: radius + 1.5,
+        fill: radialDexterousHandPalette.halo,
+        opacity: 1,
+        "data-joint": name,
+      }),
+    );
+    parent.appendChild(
+      createDeliverySvgElement("circle", {
+        class: "delivery-robot-hand-joint",
+        cx: point.x,
+        cy: point.y,
+        r: radius,
+        fill: color,
+        "data-joint": name,
+      }),
+    );
   }
 
-  function drawGripper(tip, elbow, grip) {
-    const gripper = createDeliverySvgGroup({ class: "delivery-robot-gripper" });
-    const angle = Math.atan2(tip.y - elbow.y, tip.x - elbow.x);
-    const forwardX = Math.cos(angle);
-    const forwardY = Math.sin(angle);
-    const normalX = Math.cos(angle + Math.PI / 2);
-    const normalY = Math.sin(angle + Math.PI / 2);
-    const halfOpen = 15 - grip * 7.4;
-    const knuckleOffset = 9;
-    const fingerLength = 18;
+  function drawDexterousFinger(parent, joints, color, activeColor) {
+    joints.slice(0, -1).forEach((joint, index) => {
+      const next = joints[index + 1];
+      parent.appendChild(
+        createDeliverySvgElement("line", {
+          class: "delivery-robot-hand-bone",
+          x1: joint.x,
+          y1: joint.y,
+          x2: next.x,
+          y2: next.y,
+          stroke: index === joints.length - 2 ? activeColor : radialDexterousHandPalette.bone,
+          "stroke-width": index === 0 ? 1.55 : 1.35,
+          "stroke-linecap": "round",
+        }),
+      );
+    });
+    joints.forEach((joint) => drawHandJoint(parent, joint, joint.hot ? activeColor : radialDexterousHandPalette.joint, joint.name, joint.tip ? 2 : 1.75));
+  }
 
-    gripper.appendChild(
-      createDeliverySvgElement("circle", { cx: tip.x, cy: tip.y, r: 8, stroke: palette.line, "stroke-width": 1.5, fill: "rgba(255,180,94,0.06)" }),
+  function drawRadialPalmRay(parent, start, end) {
+    parent.appendChild(
+      createDeliverySvgElement("line", {
+        class: "delivery-robot-hand-ray",
+        x1: start.x,
+        y1: start.y,
+        x2: end.x,
+        y2: end.y,
+        stroke: radialDexterousHandPalette.bone,
+        "stroke-width": 1.45,
+        "stroke-linecap": "round",
+      }),
     );
-    gripper.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: tip.x, cy: tip.y, r: 3, fill: palette.hot }));
+  }
 
-    [-1, 1].forEach((side) => {
-      const baseX = tip.x + forwardX * knuckleOffset;
-      const baseY = tip.y + forwardY * knuckleOffset;
-      const knuckleX = baseX + normalX * halfOpen * side;
-      const knuckleY = baseY + normalY * halfOpen * side;
-      const endX = knuckleX + forwardX * fingerLength;
-      const endY = knuckleY + forwardY * fingerLength;
-      gripper.appendChild(createDeliverySvgElement("line", { x1: baseX, y1: baseY, x2: knuckleX, y2: knuckleY, stroke: palette.line, "stroke-width": 1.5 }));
-      gripper.appendChild(createDeliverySvgElement("line", { x1: knuckleX, y1: knuckleY, x2: endX, y2: endY, stroke: palette.line, "stroke-width": 2.2 }));
-      gripper.appendChild(createDeliverySvgElement("circle", { cx: endX, cy: endY, r: 1.9, fill: palette.line }));
+  function getDexterousPalmAnchor(wrist, elbow) {
+    const angle = Math.atan2(wrist.y - elbow.y, wrist.x - elbow.x);
+    const forward = { x: Math.cos(angle), y: Math.sin(angle) };
+
+    return {
+      x: wrist.x + forward.x * scaleHand(30),
+      y: wrist.y + forward.y * scaleHand(30),
+    };
+  }
+
+  function drawDexterousHand(wrist, elbow, grip, options = { class: "delivery-robot-hand", opacity: 1, parent: dynamicLayer, color: palette.line }) {
+    const { parent = dynamicLayer, opacity = 1 } = options;
+    const hand = createDeliverySvgGroup({ class: options.class, opacity });
+    const angle = Math.atan2(wrist.y - elbow.y, wrist.x - elbow.x);
+    const forward = { x: Math.cos(angle), y: Math.sin(angle) };
+    const normal = { x: Math.cos(angle + Math.PI / 2), y: Math.sin(angle + Math.PI / 2) };
+    const curl = grip;
+    const activeColor = robotGreen;
+    const handJointPoints = [{ ...wrist, name: dexterousHandJointNames[0], hot: grip > 0.55 }];
+
+    [
+      { prefix: "thumb", names: ["thumbCmc", "thumbMcp", "thumbIp", "thumbTip"], offset: -27, base: 23, spread: -1.45, lengths: [18, 16, 14] },
+      { prefix: "index", names: ["indexMcp", "indexPip", "indexDip", "indexTip"], offset: -14, base: 30, spread: -0.45, lengths: [22, 22, 18] },
+      { prefix: "middle", names: ["middleMcp", "middlePip", "middleDip", "middleTip"], offset: 0, base: 32, spread: 0, lengths: [25, 25, 20] },
+      { prefix: "ring", names: ["ringMcp", "ringPip", "ringDip", "ringTip"], offset: 14, base: 30, spread: 0.45, lengths: [22, 22, 18] },
+      { prefix: "pinky", names: ["pinkyMcp", "pinkyPip", "pinkyDip", "pinkyTip"], offset: 27, base: 25, spread: 1.35, lengths: [17, 17, 14] },
+    ].forEach((finger) => {
+      const base = {
+        x: wrist.x + forward.x * scaleHand(finger.base) + normal.x * scaleHand(finger.offset),
+        y: wrist.y + forward.y * scaleHand(finger.base) + normal.y * scaleHand(finger.offset),
+      };
+      const pip = {
+        x: base.x + forward.x * scaleHand(finger.lengths[0] - curl * 3) + normal.x * scaleHand(finger.spread * 4 + curl * finger.spread * 3),
+        y: base.y + forward.y * scaleHand(finger.lengths[0] - curl * 3) + normal.y * scaleHand(finger.spread * 4 + curl * finger.spread * 3),
+      };
+      const dip = {
+        x: pip.x + forward.x * scaleHand(finger.lengths[1] - curl * 6) + normal.x * scaleHand(finger.spread * 3 + curl * finger.spread * 5),
+        y: pip.y + forward.y * scaleHand(finger.lengths[1] - curl * 6) + normal.y * scaleHand(finger.spread * 3 + curl * finger.spread * 5),
+      };
+      const tip = {
+        x: dip.x + forward.x * scaleHand(finger.lengths[2] - curl * 7) + normal.x * scaleHand(finger.spread * 2 + curl * finger.spread * 8),
+        y: dip.y + forward.y * scaleHand(finger.lengths[2] - curl * 7) + normal.y * scaleHand(finger.spread * 2 + curl * finger.spread * 8),
+      };
+      const fingerJoints = [
+        { ...base, name: finger.names[0] },
+        { ...pip, name: finger.names[1] },
+        { ...dip, name: finger.names[2] },
+        { ...tip, name: finger.names[3], tip: true, hot: grip > 0.55 },
+      ];
+
+      handJointPoints.push(...fingerJoints);
+      drawRadialPalmRay(hand, wrist, base);
+      drawDexterousFinger(hand, fingerJoints, radialDexterousHandPalette.bone, activeColor);
     });
 
-    dynamicLayer.appendChild(gripper);
+    drawHandJoint(hand, wrist, activeColor, "wrist", 2.35);
+    hand.setAttribute("data-hand-joints", String(handJointPoints.length));
+
+    if (grip > 0.55) {
+      hand.appendChild(createDeliverySvgElement("circle", { cx: wrist.x + forward.x * scaleHand(35), cy: wrist.y + forward.y * scaleHand(35), r: scaleHand(18), stroke: robotGreen, "stroke-width": 1, "stroke-dasharray": "2 5", fill: "none", opacity: 0.7 }));
+    }
+
+    parent.appendChild(hand);
   }
 
-  function drawArm(program, target, elbowSign) {
-    const { elbow, tip } = solveDeliveryArmIk(program.shoulder, target, elbowSign);
-    dynamicLayer.appendChild(
-      createDeliverySvgElement("line", { x1: program.shoulder.x, y1: program.shoulder.y, x2: elbow.x, y2: elbow.y, stroke: palette.line, "stroke-width": 2.6 }),
-    );
-    dynamicLayer.appendChild(
-      createDeliverySvgElement("line", { x1: elbow.x, y1: elbow.y, x2: tip.x, y2: tip.y, stroke: palette.line, "stroke-width": 2.4 }),
-    );
-    dynamicLayer.appendChild(drawJoint(program.shoulder.x, program.shoulder.y, 6));
-    dynamicLayer.appendChild(drawJoint(elbow.x, elbow.y, 5));
-    drawGripper(tip, elbow, target.grip);
+  function drawSupportArm(target) {
+    const supportArm = createDeliverySvgGroup({ class: "delivery-robot-support-arm", opacity: supportArmOpacity });
+    const limb = createDeliverySvgGroup({ class: "delivery-robot-limb-left" });
+    const { elbow, tip } = solveDeliveryArmIk(supportArmProgram.shoulder, target, supportArmElbowSign, armUpperLength, armForearmLength);
+
+    drawSkeletonSegment(limb, supportArmProgram.shoulder, elbow, skeletonPalette.left, 4.3, "delivery-robot-limb-left");
+    drawSkeletonSegment(limb, elbow, tip, skeletonPalette.left, 4, "delivery-robot-limb-left");
+    drawSkeletonJoint(limb, supportArmProgram.shoulder, skeletonPalette.left, 6);
+    drawSkeletonJoint(limb, elbow, skeletonPalette.left, 5.4);
+    drawDexterousHand(tip, elbow, target.grip, { class: "delivery-robot-assist-hand", opacity: 1, parent: limb, color: skeletonPalette.left });
+    supportArm.appendChild(limb);
+    dynamicLayer.appendChild(supportArm);
     return tip;
   }
 
-  function getBlockPosition(program, progress, tip) {
-    if (progress >= 0.3 && progress < 0.74) {
-      return { x: tip.x, y: tip.y + 7, held: true };
-    }
+  function drawActiveArm(target) {
+    const { elbow, tip } = solveDeliveryArmIk(armProgram.shoulder, target, activeArmElbowSign, armUpperLength, armForearmLength);
+    const limb = createDeliverySvgGroup({ class: "delivery-robot-limb-right" });
 
-    if (progress < 0.3) {
-      return { x: program.pickX, y: graspY, held: false };
-    }
-
-    return { x: program.placeX, y: graspY, held: false };
+    drawSkeletonSegment(limb, armProgram.shoulder, elbow, skeletonPalette.right, 4.5, "delivery-robot-limb-right");
+    drawSkeletonSegment(limb, elbow, tip, skeletonPalette.right, 4.2, "delivery-robot-limb-right");
+    drawSkeletonJoint(limb, armProgram.shoulder, skeletonPalette.right, 6.4);
+    drawSkeletonJoint(limb, elbow, skeletonPalette.right, 5.5);
+    drawDexterousHand(tip, elbow, target.grip, { class: "delivery-robot-hand", opacity: 1, parent: limb, color: skeletonPalette.right });
+    dynamicLayer.appendChild(limb);
+    return tip;
   }
 
-  function drawBlock(position) {
-    const x = position.x - block.width / 2;
+  function objectPosition(progress, handTip, elbow) {
+    if (progress >= 0.4 && progress < 0.9) {
+      const palmAnchor = getDexterousPalmAnchor(handTip, elbow);
+      return { x: palmAnchor.x, y: palmAnchor.y, held: true };
+    }
+
+    if (progress < 0.4) {
+      return { x: objectPick.x, y: objectPick.y, held: false };
+    }
+
+    return { x: objectPlace.x, y: objectPlace.y, held: false };
+  }
+
+  function drawObject(position) {
+    const x = position.x - object.width / 2;
+    const targetY = position.held ? position.y - object.height / 2 : position.y;
     dynamicLayer.appendChild(
       createDeliverySvgElement("rect", {
         x,
-        y: position.y,
-        width: block.width,
-        height: block.height,
-        rx: 3,
+        y: targetY,
+        width: object.width,
+        height: object.height,
+        rx: 4,
         stroke: palette.line,
         "stroke-width": 1.5,
-        fill: position.held ? "rgba(255,180,94,0.14)" : "rgba(99,240,181,0.08)",
+        fill: position.held ? "rgba(99,240,181,0.14)" : "rgba(99,240,181,0.08)",
       }),
     );
     dynamicLayer.appendChild(
-      createDeliverySvgElement("line", { x1: x + 6, y1: position.y + 5, x2: x + block.width - 6, y2: position.y + block.height - 5, stroke: palette.soft, "stroke-width": 1 }),
+      createDeliverySvgElement("path", {
+        d: `M${x + 7} ${targetY + 7} L${x + object.width - 7} ${targetY + object.height - 7} M${x + 8} ${targetY + object.height - 8} L${x + object.width - 8} ${targetY + 8}`,
+        stroke: palette.soft,
+        "stroke-width": 1,
+      }),
     );
     dynamicLayer.appendChild(
-      createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: position.x, cy: position.y + block.height / 2, r: 1.8, fill: position.held ? palette.hot : palette.line }),
+      createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: position.x, cy: targetY + object.height / 2, r: 2, fill: position.held ? robotGreen : palette.line }),
     );
   }
 
   function render(time) {
     dynamicLayer.replaceChildren();
-    const leftProgress = (time % cycleMs) / cycleMs;
-    const rightProgress = ((time + cycleMs * 0.5) % cycleMs) / cycleMs;
-    const leftTarget = sampleDeliveryProgram(leftProgram, leftProgress);
-    const rightTarget = sampleDeliveryProgram(rightProgram, rightProgress);
-    const leftTip = solveDeliveryArmIk(leftProgram.shoulder, leftTarget, 1).tip;
-    const rightTip = solveDeliveryArmIk(rightProgram.shoulder, rightTarget, -1).tip;
+    const progress = (time % cycleMs) / cycleMs;
+    const target = sampleDeliveryProgram(armProgram, progress);
+    const supportTarget = sampleDeliveryProgram(supportArmProgram, progress);
+    const activePose = solveDeliveryArmIk(armProgram.shoulder, target, activeArmElbowSign, armUpperLength, armForearmLength);
+    const objectState = objectPosition(progress, activePose.tip, activePose.elbow);
 
-    drawBlock(getBlockPosition(leftProgram, leftProgress, leftTip));
-    drawBlock(getBlockPosition(rightProgram, rightProgress, rightTip));
-    drawArm(leftProgram, leftTarget, 1);
-    drawArm(rightProgram, rightTarget, -1);
+    drawSupportArm(supportTarget);
+    drawObject(objectState);
+    drawActiveArm(target);
 
     svg.querySelectorAll(".delivery-robot-pulse").forEach((node, index) => {
       node.setAttribute("opacity", (0.58 + 0.42 * Math.abs(Math.sin(time / 680 + index * 0.72))).toFixed(2));
