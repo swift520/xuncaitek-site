@@ -248,9 +248,12 @@ const sceneMarqueeTracks = document.querySelectorAll("[data-scene-marquee]");
 const egoMarquee = document.querySelector(".ego-marquee");
 const egoMarqueeTracks = document.querySelectorAll("[data-ego-marquee]");
 const thirdPersonMosaic = document.querySelector("[data-third-person-mosaic]");
+const deliveryRobotStage = document.querySelector("#delivery-robot-stage");
 let currentLanguage = localStorage.getItem(languageStorageKey) || "en";
 let egoMotionInitialized = false;
 let thirdPersonResizeFrame = null;
+let deliveryRobotRuntime = null;
+let deliveryRobotAnimationFrame = null;
 const trackLoopDistances = new WeakMap();
 
 const egoMotion = {
@@ -284,13 +287,16 @@ const egoCategories = [
 
 const sceneSamples = [
   { src: "assets/scenes/scene-01.webp", variant: "standard" },
+  { src: "assets/scenes/scene-15.webp", variant: "wide" },
   { src: "assets/scenes/scene-02.webp", variant: "standard" },
   { src: "assets/scenes/scene-03.webp", variant: "wide" },
   { src: "assets/scenes/scene-04.webp", variant: "wide" },
+  { src: "assets/scenes/scene-16.webp", variant: "wide" },
   { src: "assets/scenes/scene-05.webp", variant: "standard" },
   { src: "assets/scenes/scene-06.webp", variant: "standard" },
   { src: "assets/scenes/scene-07.webp", variant: "wide" },
   { src: "assets/scenes/scene-08.webp", variant: "wide" },
+  { src: "assets/scenes/scene-17.webp", variant: "wide" },
   { src: "assets/scenes/scene-09.webp", variant: "wide" },
   { src: "assets/scenes/scene-10.webp", variant: "wide" },
   { src: "assets/scenes/scene-11.webp", variant: "standard" },
@@ -862,6 +868,417 @@ function renderThirdPersonModule() {
   scheduleThirdPersonFadeUpdate();
 }
 
+function createDeliverySvgElement(tagName, attributes = {}) {
+  const node = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    if (key === "text") {
+      node.textContent = value;
+      return;
+    }
+
+    node.setAttribute(key, value);
+  });
+
+  return node;
+}
+
+function createDeliverySvgGroup(attributes = {}) {
+  return createDeliverySvgElement("g", attributes);
+}
+
+function drawDeliveryCornerFrame(parent, x, y, width, height, length, stroke) {
+  const frame = createDeliverySvgGroup({ class: "delivery-robot-corners" });
+  const segments = [
+    [x, y, x + length, y],
+    [x, y, x, y + length],
+    [x + width - length, y, x + width, y],
+    [x + width, y, x + width, y + length],
+    [x, y + height, x + length, y + height],
+    [x, y + height - length, x, y + height],
+    [x + width - length, y + height, x + width, y + height],
+    [x + width, y + height - length, x + width, y + height],
+  ];
+
+  segments.forEach(([x1, y1, x2, y2]) => {
+    frame.appendChild(createDeliverySvgElement("line", { x1, y1, x2, y2, stroke, "stroke-width": 1.2 }));
+  });
+
+  parent.appendChild(frame);
+}
+
+function solveDeliveryArmIk(shoulder, target, elbowSign, upperLength = 116, forearmLength = 118) {
+  const dx = target.x - shoulder.x;
+  const dy = target.y - shoulder.y;
+  const distance = clamp(Math.hypot(dx, dy), Math.abs(upperLength - forearmLength) + 1, upperLength + forearmLength - 1);
+  const baseAngle = Math.atan2(dy, dx);
+  const cosine = clamp(
+    (upperLength * upperLength + distance * distance - forearmLength * forearmLength) / (2 * upperLength * distance),
+    -1,
+    1,
+  );
+  const shoulderAngle = baseAngle + elbowSign * Math.acos(cosine);
+  const elbow = {
+    x: shoulder.x + upperLength * Math.cos(shoulderAngle),
+    y: shoulder.y + upperLength * Math.sin(shoulderAngle),
+  };
+  const tip = {
+    x: shoulder.x + distance * Math.cos(baseAngle),
+    y: shoulder.y + distance * Math.sin(baseAngle),
+  };
+
+  return { elbow, tip };
+}
+
+function buildDeliveryRobotFrame() {
+  const palette = {
+    line: "#9dffe0",
+    soft: "rgba(157, 255, 224, 0.28)",
+    faint: "rgba(157, 255, 224, 0.13)",
+    hot: "#ffb45e",
+    fill: "rgba(99, 240, 181, 0.07)",
+  };
+  const svg = createDeliverySvgElement("svg", {
+    class: "delivery-robot-svg",
+    viewBox: "0 0 620 620",
+    role: "img",
+    "aria-labelledby": "delivery-robot-title delivery-robot-desc",
+  });
+  svg.appendChild(
+    createDeliverySvgElement("title", {
+      id: "delivery-robot-title",
+      text: "FIG 02 — HUMANOID UPPER BODY MK-002",
+    }),
+  );
+  svg.appendChild(
+    createDeliverySvgElement("desc", {
+      id: "delivery-robot-desc",
+      text: "A line-art robot animation showing data blocks moving through a delivery QA cycle.",
+    }),
+  );
+
+  const staticLayer = createDeliverySvgGroup({ class: "delivery-robot-static" });
+  for (let x = 70; x <= 550; x += 48) {
+    staticLayer.appendChild(
+      createDeliverySvgElement("line", { x1: x, y1: 74, x2: x, y2: 536, stroke: palette.faint, "stroke-width": 0.7 }),
+    );
+  }
+  for (let y = 74; y <= 536; y += 48) {
+    staticLayer.appendChild(
+      createDeliverySvgElement("line", { x1: 70, y1: y, x2: 550, y2: y, stroke: palette.faint, "stroke-width": 0.7 }),
+    );
+  }
+  drawDeliveryCornerFrame(staticLayer, 50, 58, 520, 498, 22, palette.line);
+  staticLayer.appendChild(
+    createDeliverySvgElement("text", {
+      x: 58,
+      y: 48,
+      fill: palette.hot,
+      "font-size": 11,
+      "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+      "letter-spacing": ".12em",
+      text: "FIG 02 — HUMANOID UPPER BODY MK-002",
+    }),
+  );
+  staticLayer.appendChild(
+    createDeliverySvgElement("text", {
+      x: 562,
+      y: 48,
+      fill: palette.line,
+      opacity: 0.66,
+      "text-anchor": "end",
+      "font-size": 10,
+      "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+      "letter-spacing": ".1em",
+      text: "DATASET QA CYCLE",
+    }),
+  );
+
+  const tableY = 454;
+  staticLayer.appendChild(
+    createDeliverySvgElement("path", {
+      d: `M94 ${tableY} L526 ${tableY} L554 492 L66 492 Z`,
+      stroke: palette.line,
+      "stroke-width": 1.5,
+      fill: palette.fill,
+    }),
+  );
+  staticLayer.appendChild(
+    createDeliverySvgElement("line", { x1: 66, y1: 492, x2: 66, y2: 526, stroke: palette.soft, "stroke-width": 1.3 }),
+  );
+  staticLayer.appendChild(
+    createDeliverySvgElement("line", { x1: 554, y1: 492, x2: 554, y2: 526, stroke: palette.soft, "stroke-width": 1.3 }),
+  );
+
+  const shoulderLeft = { x: 248, y: 212 };
+  const shoulderRight = { x: 372, y: 212 };
+  const torso = createDeliverySvgGroup({ class: "delivery-robot-torso" });
+  const torsoLine = (x1, y1, x2, y2, width = 2) => {
+    torso.appendChild(createDeliverySvgElement("line", { x1, y1, x2, y2, stroke: palette.line, "stroke-width": width }));
+  };
+  torsoLine(288, tableY, 332, tableY, 1.6);
+  torsoLine(310, 404, 288, tableY, 2);
+  torsoLine(310, 404, 332, tableY, 2);
+  torsoLine(310, 212, 310, 404, 2.4);
+  torsoLine(shoulderLeft.x, shoulderLeft.y, shoulderRight.x, shoulderRight.y, 2.4);
+  [shoulderLeft, shoulderRight].forEach((shoulder) => {
+    torso.appendChild(
+      createDeliverySvgElement("circle", {
+        cx: shoulder.x,
+        cy: shoulder.y,
+        r: 5,
+        stroke: palette.line,
+        "stroke-width": 1.5,
+        fill: "none",
+      }),
+    );
+    torso.appendChild(
+      createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: shoulder.x, cy: shoulder.y, r: 2, fill: palette.hot }),
+    );
+  });
+  torsoLine(310, 212, 310, 196, 2);
+  torso.appendChild(
+    createDeliverySvgElement("path", { d: "M310 182 L318 199 L302 199 Z", stroke: palette.line, "stroke-width": 1.5, fill: "none" }),
+  );
+  torso.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: 310, cy: 194, r: 2, fill: palette.hot }));
+  staticLayer.appendChild(torso);
+
+  [
+    { x: 176, label: "CAPTURE" },
+    { x: 310, label: "QA" },
+    { x: 444, label: "PACK" },
+  ].forEach((zone) => {
+    staticLayer.appendChild(
+      createDeliverySvgElement("rect", {
+        x: zone.x - 24,
+        y: tableY - 7,
+        width: 48,
+        height: 10,
+        stroke: palette.soft,
+        "stroke-width": 1,
+        "stroke-dasharray": "3 4",
+        fill: "none",
+      }),
+    );
+    staticLayer.appendChild(
+      createDeliverySvgElement("text", {
+        x: zone.x,
+        y: tableY + 27,
+        fill: palette.line,
+        opacity: 0.64,
+        "text-anchor": "middle",
+        "font-size": 9,
+        "font-family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "letter-spacing": ".1em",
+        text: zone.label,
+      }),
+    );
+  });
+  svg.appendChild(staticLayer);
+
+  const dynamicLayer = createDeliverySvgGroup({ class: "delivery-robot-dynamic" });
+  svg.appendChild(dynamicLayer);
+
+  const block = { width: 30, height: 22 };
+  const travelY = 318;
+  const graspY = tableY - block.height;
+  const cycleMs = 6800;
+  const leftProgram = createDeliveryMotionProgram(176, 310, shoulderLeft);
+  const rightProgram = createDeliveryMotionProgram(444, 310, shoulderRight);
+
+  function createDeliveryMotionProgram(pickX, placeX, shoulder) {
+    const rest = { x: (pickX + placeX) / 2, y: 294 };
+    return {
+      pickX,
+      placeX,
+      shoulder,
+      keys: [
+        { progress: 0, target: rest, grip: 0 },
+        { progress: 0.12, target: { x: pickX, y: travelY }, grip: 0 },
+        { progress: 0.22, target: { x: pickX, y: graspY }, grip: 0 },
+        { progress: 0.3, target: { x: pickX, y: graspY }, grip: 1 },
+        { progress: 0.43, target: { x: pickX, y: travelY }, grip: 1 },
+        { progress: 0.56, target: { x: placeX, y: travelY }, grip: 1 },
+        { progress: 0.66, target: { x: placeX, y: graspY }, grip: 1 },
+        { progress: 0.74, target: { x: placeX, y: graspY }, grip: 0 },
+        { progress: 0.84, target: { x: placeX, y: travelY }, grip: 0 },
+        { progress: 1, target: rest, grip: 0 },
+      ],
+    };
+  }
+
+  function smoothMotion(value) {
+    return value * value * (3 - 2 * value);
+  }
+
+  function sampleDeliveryProgram(program, progress) {
+    const keys = program.keys;
+    for (let i = 0; i < keys.length - 1; i += 1) {
+      const current = keys[i];
+      const next = keys[i + 1];
+      if (progress >= current.progress && progress <= next.progress) {
+        const localProgress = smoothMotion((progress - current.progress) / (next.progress - current.progress));
+        return {
+          x: current.target.x + (next.target.x - current.target.x) * localProgress,
+          y: current.target.y + (next.target.y - current.target.y) * localProgress,
+          grip: current.grip + (next.grip - current.grip) * localProgress,
+        };
+      }
+    }
+
+    return { ...keys[0].target, grip: keys[0].grip };
+  }
+
+  function drawJoint(x, y, radius) {
+    const joint = createDeliverySvgGroup();
+    joint.appendChild(createDeliverySvgElement("circle", { cx: x, cy: y, r: radius, stroke: palette.line, "stroke-width": 1.4, fill: "none" }));
+    joint.appendChild(createDeliverySvgElement("circle", { cx: x, cy: y, r: radius * 0.52, stroke: palette.line, "stroke-width": 1, fill: "none" }));
+    joint.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: x, cy: y, r: radius * 0.18, fill: palette.hot }));
+    return joint;
+  }
+
+  function drawGripper(tip, elbow, grip) {
+    const gripper = createDeliverySvgGroup({ class: "delivery-robot-gripper" });
+    const angle = Math.atan2(tip.y - elbow.y, tip.x - elbow.x);
+    const forwardX = Math.cos(angle);
+    const forwardY = Math.sin(angle);
+    const normalX = Math.cos(angle + Math.PI / 2);
+    const normalY = Math.sin(angle + Math.PI / 2);
+    const halfOpen = 15 - grip * 7.4;
+    const knuckleOffset = 9;
+    const fingerLength = 18;
+
+    gripper.appendChild(
+      createDeliverySvgElement("circle", { cx: tip.x, cy: tip.y, r: 8, stroke: palette.line, "stroke-width": 1.5, fill: "rgba(255,180,94,0.06)" }),
+    );
+    gripper.appendChild(createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: tip.x, cy: tip.y, r: 3, fill: palette.hot }));
+
+    [-1, 1].forEach((side) => {
+      const baseX = tip.x + forwardX * knuckleOffset;
+      const baseY = tip.y + forwardY * knuckleOffset;
+      const knuckleX = baseX + normalX * halfOpen * side;
+      const knuckleY = baseY + normalY * halfOpen * side;
+      const endX = knuckleX + forwardX * fingerLength;
+      const endY = knuckleY + forwardY * fingerLength;
+      gripper.appendChild(createDeliverySvgElement("line", { x1: baseX, y1: baseY, x2: knuckleX, y2: knuckleY, stroke: palette.line, "stroke-width": 1.5 }));
+      gripper.appendChild(createDeliverySvgElement("line", { x1: knuckleX, y1: knuckleY, x2: endX, y2: endY, stroke: palette.line, "stroke-width": 2.2 }));
+      gripper.appendChild(createDeliverySvgElement("circle", { cx: endX, cy: endY, r: 1.9, fill: palette.line }));
+    });
+
+    dynamicLayer.appendChild(gripper);
+  }
+
+  function drawArm(program, target, elbowSign) {
+    const { elbow, tip } = solveDeliveryArmIk(program.shoulder, target, elbowSign);
+    dynamicLayer.appendChild(
+      createDeliverySvgElement("line", { x1: program.shoulder.x, y1: program.shoulder.y, x2: elbow.x, y2: elbow.y, stroke: palette.line, "stroke-width": 2.6 }),
+    );
+    dynamicLayer.appendChild(
+      createDeliverySvgElement("line", { x1: elbow.x, y1: elbow.y, x2: tip.x, y2: tip.y, stroke: palette.line, "stroke-width": 2.4 }),
+    );
+    dynamicLayer.appendChild(drawJoint(program.shoulder.x, program.shoulder.y, 6));
+    dynamicLayer.appendChild(drawJoint(elbow.x, elbow.y, 5));
+    drawGripper(tip, elbow, target.grip);
+    return tip;
+  }
+
+  function getBlockPosition(program, progress, tip) {
+    if (progress >= 0.3 && progress < 0.74) {
+      return { x: tip.x, y: tip.y + 7, held: true };
+    }
+
+    if (progress < 0.3) {
+      return { x: program.pickX, y: graspY, held: false };
+    }
+
+    return { x: program.placeX, y: graspY, held: false };
+  }
+
+  function drawBlock(position) {
+    const x = position.x - block.width / 2;
+    dynamicLayer.appendChild(
+      createDeliverySvgElement("rect", {
+        x,
+        y: position.y,
+        width: block.width,
+        height: block.height,
+        rx: 3,
+        stroke: palette.line,
+        "stroke-width": 1.5,
+        fill: position.held ? "rgba(255,180,94,0.14)" : "rgba(99,240,181,0.08)",
+      }),
+    );
+    dynamicLayer.appendChild(
+      createDeliverySvgElement("line", { x1: x + 6, y1: position.y + 5, x2: x + block.width - 6, y2: position.y + block.height - 5, stroke: palette.soft, "stroke-width": 1 }),
+    );
+    dynamicLayer.appendChild(
+      createDeliverySvgElement("circle", { class: "delivery-robot-pulse", cx: position.x, cy: position.y + block.height / 2, r: 1.8, fill: position.held ? palette.hot : palette.line }),
+    );
+  }
+
+  function render(time) {
+    dynamicLayer.replaceChildren();
+    const leftProgress = (time % cycleMs) / cycleMs;
+    const rightProgress = ((time + cycleMs * 0.5) % cycleMs) / cycleMs;
+    const leftTarget = sampleDeliveryProgram(leftProgram, leftProgress);
+    const rightTarget = sampleDeliveryProgram(rightProgram, rightProgress);
+    const leftTip = solveDeliveryArmIk(leftProgram.shoulder, leftTarget, 1).tip;
+    const rightTip = solveDeliveryArmIk(rightProgram.shoulder, rightTarget, -1).tip;
+
+    drawBlock(getBlockPosition(leftProgram, leftProgress, leftTip));
+    drawBlock(getBlockPosition(rightProgram, rightProgress, rightTip));
+    drawArm(leftProgram, leftTarget, 1);
+    drawArm(rightProgram, rightTarget, -1);
+
+    svg.querySelectorAll(".delivery-robot-pulse").forEach((node, index) => {
+      node.setAttribute("opacity", (0.58 + 0.42 * Math.abs(Math.sin(time / 680 + index * 0.72))).toFixed(2));
+    });
+  }
+
+  render(960);
+  return { svg, render };
+}
+
+function initDeliveryRobotAnimation() {
+  if (!deliveryRobotStage || deliveryRobotRuntime) {
+    return;
+  }
+
+  deliveryRobotRuntime = buildDeliveryRobotFrame();
+  deliveryRobotStage.textContent = "";
+  deliveryRobotStage.appendChild(deliveryRobotRuntime.svg);
+
+  const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function stopDeliveryRobotAnimation() {
+    if (deliveryRobotAnimationFrame) {
+      cancelAnimationFrame(deliveryRobotAnimationFrame);
+      deliveryRobotAnimationFrame = null;
+    }
+  }
+
+  function stepDeliveryRobotAnimation(timestamp) {
+    deliveryRobotRuntime.render(timestamp);
+    deliveryRobotAnimationFrame = requestAnimationFrame(stepDeliveryRobotAnimation);
+  }
+
+  function startDeliveryRobotAnimation() {
+    stopDeliveryRobotAnimation();
+    if (reduceMotionQuery.matches || document.hidden) {
+      deliveryRobotRuntime.render(960);
+      return;
+    }
+
+    deliveryRobotAnimationFrame = requestAnimationFrame(stepDeliveryRobotAnimation);
+  }
+
+  document.addEventListener("visibilitychange", startDeliveryRobotAnimation);
+  if (reduceMotionQuery.addEventListener) {
+    reduceMotionQuery.addEventListener("change", startDeliveryRobotAnimation);
+  }
+  startDeliveryRobotAnimation();
+}
+
 function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);
@@ -928,3 +1345,4 @@ window.addEventListener("resize", () => {
 });
 
 setLanguage(currentLanguage);
+initDeliveryRobotAnimation();

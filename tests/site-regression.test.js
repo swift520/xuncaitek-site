@@ -20,6 +20,11 @@ function scriptFunctionBody(name) {
   return match?.groups?.body || "";
 }
 
+function scriptArraySources(name) {
+  const match = scriptJs.match(new RegExp(`const ${name} = \\[(?<body>[\\s\\S]*?)\\];`));
+  return [...(match?.groups?.body || "").matchAll(/src:\s*"([^"]+)"/g)].map((source) => source[1]);
+}
+
 test("brand logo and company wordmark actively return to the top", () => {
   assert.match(indexHtml, /<a class="brand" href="#top"[^>]*data-scroll-top/);
   assert.match(scriptJs, /brandHomeLink[\s\S]+scrollTo\(\{[\s\S]+top:\s*0/);
@@ -46,6 +51,26 @@ test("glove copy uses data gloves wording", () => {
   assert.match(scriptJs, /数据手套/);
   assert.match(visibleSiteSource, /data gloves/i);
   assert.doesNotMatch(visibleSiteSource, /触觉手套|tactile gloves/i);
+});
+
+test("company solution image uses the requested product source", () => {
+  assert.match(indexHtml, /<img src="产品\/微信图片_20260701213322\.jpg"[^>]*alt="XUNCAITEK product concept display"/);
+  assert.ok(fs.existsSync(path.join(root, "产品/微信图片_20260701213322.jpg")));
+});
+
+test("scene carousel includes the three new scene images in a mixed order", () => {
+  const sceneSources = scriptArraySources("sceneSamples");
+  const newSceneSources = [
+    "assets/scenes/scene-15.webp",
+    "assets/scenes/scene-16.webp",
+    "assets/scenes/scene-17.webp",
+  ];
+
+  newSceneSources.forEach((source) => {
+    assert.ok(sceneSources.includes(source), `${source} missing from sceneSamples`);
+    assert.ok(fs.existsSync(path.join(root, source)), `${source} file missing`);
+  });
+  assert.notDeepEqual(sceneSources.slice(-3), newSceneSources);
 });
 
 test("co-build eyebrow is green and the contact title is white", () => {
@@ -80,6 +105,24 @@ test("image marquees use measured loop distances instead of percentage offsets",
   assert.match(scriptJs, /getTrackLoopDistance/);
   assert.match(stylesCss, /--scene-loop-distance/);
   assert.doesNotMatch(stylesCss, /translateX\(-50%\)/);
+});
+
+test("delivery standard places the robot animation beside compact content", () => {
+  assert.match(
+    indexHtml,
+    /<div class="delivery-layout">\s*<div class="delivery-robot-stage" id="delivery-robot-stage" aria-label="Robot delivery line animation"><\/div>\s*<div class="delivery-content">[\s\S]*<div class="schema-board compact-schema"/,
+  );
+  assert.match(cssBlock(".delivery-layout"), /grid-template-columns:\s*minmax\(0,\s*1\.05fr\)\s+minmax\(320px,\s*0\.95fr\)/);
+  assert.match(cssBlock(".delivery-robot-stage"), /aspect-ratio:\s*1\s*\/\s*1/);
+  assert.match(stylesCss, /\.delivery-robot-stage svg\s*\{/);
+});
+
+test("delivery robot animation is generated SVG with IK-driven dual arms", () => {
+  assert.match(scriptJs, /const deliveryRobotStage = document\.querySelector\("#delivery-robot-stage"\)/);
+  assert.match(scriptJs, /function initDeliveryRobotAnimation\(/);
+  assert.match(scriptJs, /function solveDeliveryArmIk\(/);
+  assert.match(scriptJs, /FIG 02 — HUMANOID UPPER BODY MK-002/);
+  assert.match(scriptJs, /requestAnimationFrame\(stepDeliveryRobotAnimation\)/);
 });
 
 test("footer English company suffix is in Co., Ltd. order", () => {
